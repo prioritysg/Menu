@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+        <style>
+    .nav-link.active {
+        color: #e64758 !important;
+    }
+    </style>
+                <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a class="nav-link active" href="#inner_security" role="tab" data-toggle="tab">Security<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_user" role="tab" data-toggle="tab">User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_user_group" role="tab" data-toggle="tab">User Group</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="inner_security">
+            Security will come here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_user">
+            Here will be users
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_user_group">
+            User Grooups here
+
+        </div>
+    </div>
+
+
+{% endblock content %}

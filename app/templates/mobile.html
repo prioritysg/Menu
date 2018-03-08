@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+    .nav-link.active {
+        color: #e64758 !important;
+    }
+    </style>
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a class="nav-link active" href="#receive" role="tab" data-toggle="tab">Receive<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#pick" role="tab" data-toggle="tab">Pick</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#ship" role="tab" data-toggle="tab">Ship</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#load" role="tab" data-toggle="tab">Load</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inventory" role="tab" data-toggle="tab">Inventory</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#utilities" role="tab" data-toggle="tab">Utilities</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="receive">
+            Receive Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="pick">
+            Pick Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="ship">
+            Ship Here
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="load">
+            Load Here
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="inventory">
+            Inventory Here
+
+        </div>
+            <div role="tabpanel" class="tab-pane fade" id="utilities">
+            Utilities
+
+        </div>
+
+    </div>
+{% endblock content %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+        <style>
+    .nav-link.active {
+        color: #e64758 !important;
+    }
+    </style>
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a class="nav-link active" href="#inner_client" role="tab" data-toggle="tab">Client<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_configuration" role="tab" data-toggle="tab">Configurations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_settings" role="tab" data-toggle="tab">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_import" role="tab" data-toggle="tab">Import-Export</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_reports" role="tab" data-toggle="tab">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_invoicing" role="tab" data-toggle="tab">Invoicing</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="inner_client">
+            Clients Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_configuration">
+            Configurations
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_settings">
+            Settings Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_import">
+            Import And Export Here
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="inner_reports">
+            Reports Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_invoicing">
+            Invoicing Here
+
+        </div>
+    </div>
+
+{% endblock content %}

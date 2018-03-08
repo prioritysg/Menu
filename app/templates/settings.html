@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+        <style>
+    .nav-link.active {
+        color: #e64758 !important;
+    }
+    </style>
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a class="nav-link active" href="#organization" role="tab" data-toggle="tab">Organization<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#security" role="tab" data-toggle="tab">Security</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#customer" role="tab" data-toggle="tab">Client</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="organization">
+
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a class="nav-link active" href="#inner_organization" role="tab" data-toggle="tab">Organization<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_client_details" role="tab" data-toggle="tab">Client Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_customer_details" role="tab" data-toggle="tab">Customer Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_carrier_details" role="tab" data-toggle="tab">Carrier Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_vendor_details" role="tab" data-toggle="tab">Vendor Details</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="inner_organization">
+            Organization Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_client_details">
+            Client Details Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_customer_details">
+            Customer Details Here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_carrier_details">
+            Carrier Details Here
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="inner_vendor_details">
+            Vendor Details Here
+
+        </div>
+    </div>
+
+
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="security">
+                <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" >
+                    <a class="nav-link active" href="#inner_security" role="tab" data-toggle="tab">Security<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_user" role="tab" data-toggle="tab">User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inner_user_group" role="tab" data-toggle="tab">User Group</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="inner_security">
+            Security will come here
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_user">
+            Here will be users
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_user_group">
+            User Grooups here
+
+        </div>
+    </div>
+
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="customer">
+            {% include 'client_settings.html' %}
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="charges">
+            We will show charges here.
+
+        </div>
+    </div>
+
+
+
+
+
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4" style="text-align: center;display:inline-block;">
+                <div class="col-lg-12">
+                    <img src="{% static 'images/person-flat.png' %}" width="100" height="100">
+                </div>
+                <div class="col-lg-12">
+                    <a href="#" class="label label-info label-lg" role="button"
+                       aria-disabled="true">Primary link</a> daa
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4" style="text-align: center;display:inline-block;">
+                <div class="col-lg-12">
+                    <img src="{% static 'images/settings-flat.png' %}" width="100" height="100">
+                </div>
+                <div class="col-lg-12">
+                    <a href="#" class="label label-info label-lg" role="button"
+                       aria-disabled="true">Primary link</a> daa
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4" style="text-align: center;display:inline-block;">
+                <div class="col-lg-12">
+                    <img src="{% static 'images/person-flat.png' %}" width="100" height="100">
+                </div>
+                <div class="col-lg-12">
+                    <a href="#" class="label label-info label-lg" role="button"
+                       aria-disabled="true">Primary link</a> daa
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

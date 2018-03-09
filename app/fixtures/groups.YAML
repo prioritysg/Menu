@@ -1,0 +1,20 @@
+- model: app.usergroup
+  pk: 1
+  fields:
+    user_type: admin
+- model: app.usergroup
+  pk: 1
+  fields:
+    user_type: manager
+- model: app.usergroup
+  pk: 1
+  fields:
+    user_type: assistant
+- model: app.usergroup
+  pk: 1
+  fields:
+    user_type: regular
+- model: app.usergroup
+  pk: 1
+  fields:
+    user_type: client

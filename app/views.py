@@ -37,19 +37,19 @@ def inventory(request):
 
 @login_required(login_url='/login/')
 def organization_settings(request):
-    return render(request, 'organization_settings.html', {'tab': 'organization_settings'})
+    return render(request, 'settings_organization.html', {'tab': 'organization_settings'})
 
 
 @login_required(login_url='/login/')
 def security_settings(request):
     users = User.objects.all()
     groups = GroupAccess.objects.all()
-    return render(request, 'security_settings.html', {'tab': 'security_settings', 'users': users, 'groups': groups})
+    return render(request, 'settings_security.html', {'tab': 'security_settings', 'users': users, 'groups': groups})
 
 
 @login_required(login_url='/login/')
 def client_settings(request):
-    return render(request, 'client_settings.html', {'tab': 'client_settings'})
+    return render(request, 'settings_client.html', {'tab': 'client_settings'})
 
 
 @login_required(login_url='/login/')

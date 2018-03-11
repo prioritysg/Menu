@@ -88,6 +88,7 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         {% for group in groups %}
                             <tr>
                                 <td>{{ group.id }}</td>
@@ -95,49 +96,34 @@
                                     {{ group.user_group.user_type }}
                                 </th>
                                 <td>
-
-                                    <i class="fa {% if group.receiving == '0' %}fa-times{% elif group.receiving == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
+                                    {% include "settings_group_access_style.html" with tab_value=group.receiving %}
                                 </td>
                                 <td>
-                                    <i class="fa {% if group.receiving == '0' %}fa-times{% elif group.receiving == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
-
-                                    {{ group.get_shipping_display }}</td>
+                                    {% include "settings_group_access_style.html" with tab_value=group.shipping %}
+                                </td>
                                 <td>
-                                    <i class="fa {% if group.receiving == '0' %}fa-times{% elif group.receiving == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
-
-                                    {{ group.get_mobile_display }}</td>
+                                    {% include "settings_group_access_style.html" with tab_value=group.mobile %}
+                                </td>
                                 <td>
-                                    <i class="fa {% if group.inventory == '0' %}fa-times{% elif group.inventory == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
+                                    {% include "settings_group_access_style.html" with tab_value=group.inventory %}
 
-                                    </td>
+                                </td>
                                 <td>
-                                    <i class="fa {% if group.items == '0' %}fa-times{% elif group.items == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
-
-                                    {{ group.get_items_display }}</td>
+                                    {% include "settings_group_access_style.html" with tab_value=group.items %}
+                                </td>
                                 <td>
-                                    <i class="fa {% if group.reports == '0' %}fa-times{% elif group.reports == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
-
-                                    </td>
+                                    {% include "settings_group_access_style.html" with tab_value=group.reports %}
+                                </td>
                                 <td>
-
-                                    <i class="fa {% if group.organization == '0' %}fa-times{% elif group.organization == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
-                            </td>
+                                    {% include "settings_group_access_style.html" with tab_value=group.organization %}
+                                </td>
                                 <td>
-                                    <i class="fa {% if group.security == '0' %}fa-times{% elif group.security == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
-                                    {{ group.get_security_display }}</td>
+                                    {% include "settings_group_access_style.html" with tab_value=group.security %}
+                                </td>
 
                                 <td>
-                                    <i class="fa {% if group.client == '0' %}fa-times{% elif group.client == 'R' %}fa-registered{% else %}fa-pencil-alt{% endif %}"
-                                       style="font-size:28px;color: red;"></i>
-                            </td>
+                                    {% include "settings_group_access_style.html" with tab_value=group.client %}
+                                </td>
 
                             </tr>
                         {% endfor %}

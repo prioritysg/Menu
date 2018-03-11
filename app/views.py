@@ -11,13 +11,9 @@ from app.models import UserGroup, GroupAccess
 from app.utils import add_user_regular_group
 
 
-def index(request):
-    return render(request, 'index.html', {})
-
-
 @login_required(login_url='/login/')
-def receiving(request):
-    return render(request, 'receiving.html', {'tab': 'receiving'})
+def client_settings(request):
+    return render(request, 'settings_client.html', {'tab': 'client_settings'})
 
 
 @login_required(login_url='/login/')
@@ -25,9 +21,8 @@ def home(request):
     return render(request, 'home.html', {'tab': 'home'})
 
 
-@login_required(login_url='/login/')
-def shipping(request):
-    return render(request, 'shipping.html', {'tab': 'shipping'})
+def index(request):
+    return render(request, 'index.html', {})
 
 
 @login_required(login_url='/login/')
@@ -36,8 +31,28 @@ def inventory(request):
 
 
 @login_required(login_url='/login/')
+def item(request):
+    return render(request, 'item.html', {'tab': 'item'})
+
+
+@login_required(login_url='/login/')
+def mobile(request):
+    return render(request, 'mobile.html', {'tab': 'mobile'})
+
+
+@login_required(login_url='/login/')
 def organization_settings(request):
     return render(request, 'settings_organization.html', {'tab': 'organization_settings'})
+
+
+@login_required(login_url='/login/')
+def receiving(request):
+    return render(request, 'receiving.html', {'tab': 'receiving'})
+
+
+@login_required(login_url='/login/')
+def reports(request):
+    return render(request, 'reports.html', {'tab': 'reports'})
 
 
 @login_required(login_url='/login/')
@@ -48,28 +63,13 @@ def security_settings(request):
 
 
 @login_required(login_url='/login/')
-def client_settings(request):
-    return render(request, 'settings_client.html', {'tab': 'client_settings'})
-
-
-@login_required(login_url='/login/')
-def mobile(request):
-    return render(request, 'mobile.html', {'tab': 'mobile'})
-
-
-@login_required(login_url='/login/')
-def reports(request):
-    return render(request, 'reports.html', {'tab': 'reports'})
-
-
-@login_required(login_url='/login/')
-def item(request):
-    return render(request, 'item.html', {'tab': 'item'})
-
-
-@login_required(login_url='/login/')
 def settings(request):
     return render(request, 'settings.html', {'tab': 'settings'})
+
+
+@login_required(login_url='/login/')
+def shipping(request):
+    return render(request, 'shipping.html', {'tab': 'shipping'})
 
 
 class SignUpView(FormView):

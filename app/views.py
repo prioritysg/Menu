@@ -64,9 +64,9 @@ def security_settings(request):
         updated_form = GroupAccessForm(requestd_data, instance=updated_group)
         if updated_form.is_valid():
             updated_form.save()
-            
+
     users = User.objects.all()
-    groups = GroupAccess.objects.all()
+    groups = GroupAccess.objects.all().order_by('id')
     forms_array = [{'id': group.id, 'form': GroupAccessForm(instance=group)} for group in groups]
     return render(request, 'settings_security.html',
                   {'tab': 'security_settings', 'users': users, 'groups': groups, 'form_array': forms_array})

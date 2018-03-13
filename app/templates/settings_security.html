@@ -71,37 +71,38 @@
 
         <div role="tabpanel" class="tab-pane fade" id="inner_user_group">
             <div class="row">
-                {% for form in form_array %}
-
-                    <div class="modal fade" id="exampleModal_{{ form.id }}" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Permissions</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form" method="post">
-                                        {% csrf_token %}
-                                        <div class="login-form">
-                                            <h2 class="heading">Permission</h2>
-                                            {% bootstrap_form form.form %}
-                                            {% buttons %}
-                                                <button type="submit" class="btn btn-success">Submit <span
-                                                        class="glyphicon glyphicon-log-in"></span></button>
-                                                <input type="hidden" name="id" value="{{ form.id }}"/>
-                                            {% endbuttons %}
-                                        </div>
-                                    </form>
+                <div class="col-lg-12">
+                    {% for form in form_array %}
+                        <div class="modal fade" id="exampleModal_{{ form.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Edit Permissions</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form" method="post">
+                                            {% csrf_token %}
+                                            <div class="login-form">
+                                                <h2 class="heading">Permission</h2>
+                                                {% bootstrap_form form.form %}
+                                                {% buttons %}
+                                                    <button type="submit" class="btn btn-success">Submit <span
+                                                            class="glyphicon glyphicon-log-in"></span></button>
+                                                    <input type="hidden" name="id" value="{{ form.id }}"/>
+                                                {% endbuttons %}
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                {% endfor %}
+                    {% endfor %}
+                </div>
 
                 <div class="col-lg-12">
                     <table class="table">
@@ -126,9 +127,9 @@
                         {% for group in groups %}
                             <tr>
                                 <td>{{ group.id }}</td>
-                                <th scope="row">
+                                <td scope="row">
                                     {{ group.user_group.user_type }}
-                                </th>
+                                </td>
                                 <td>
                                     {% include "settings_group_access_style.html" with tab_value=group.receiving %}
                                 </td>

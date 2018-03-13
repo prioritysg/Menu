@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 
-from app.forms import UserSignUpForm
+from app.forms import UserSignUpForm, GroupAccessForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
@@ -57,9 +57,19 @@ def reports(request):
 
 @login_required(login_url='/login/')
 def security_settings(request):
+    if request.POST:
+        requestd_data = request.POST.copy()
+        updated_group = GroupAccess.objects.get(id=request.POST.get('id'))
+        requestd_data['user_group'] = updated_group.id
+        updated_form = GroupAccessForm(requestd_data, instance=updated_group)
+        if updated_form.is_valid():
+            updated_form.save()
+            
     users = User.objects.all()
     groups = GroupAccess.objects.all()
-    return render(request, 'settings_security.html', {'tab': 'security_settings', 'users': users, 'groups': groups})
+    forms_array = [{'id': group.id, 'form': GroupAccessForm(instance=group)} for group in groups]
+    return render(request, 'settings_security.html',
+                  {'tab': 'security_settings', 'users': users, 'groups': groups, 'form_array': forms_array})
 
 
 @login_required(login_url='/login/')

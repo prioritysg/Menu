@@ -2,6 +2,8 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCre
 from django.contrib.auth.models import User
 from django import forms
 
+from app.models import GroupAccess
+
 
 class UserLoginForm(AuthenticationForm):
     username = UsernameField(
@@ -25,3 +27,13 @@ class UserSignUpForm(UserCreationForm):
         if User.objects.filter(username__iexact=username).exists():
             raise forms.ValidationError("Username already exist")
         return username
+
+
+class GroupAccessForm(forms.ModelForm):
+    class Meta:
+        model = GroupAccess
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(GroupAccessForm, self).__init__(*args, **kwargs)
+        self.fields['user_group'].widget.attrs['disabled'] = 'disabled'

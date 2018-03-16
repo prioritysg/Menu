@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 
 from app.forms import UserSignUpForm, GroupAccessForm
@@ -48,6 +48,14 @@ def organization_settings(request):
 @login_required(login_url='/login/')
 def receiving(request):
     return render(request, 'receiving.html', {'tab': 'receiving'})
+
+
+@login_required(login_url='/login/')
+def remove_user(request):
+    if request.POST:
+        user_id = request.POST.get('id')
+        User.objects.filter(id=user_id).delete()
+    return redirect(reverse('security_settings'))
 
 
 @login_required(login_url='/login/')

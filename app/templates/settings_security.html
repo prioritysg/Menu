@@ -48,6 +48,7 @@
                             <th>Last Name</th>
                             <th>Group</th>
                             <th>Username</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,6 +61,15 @@
                                     <span class="badge badge-pill badge-success"> {{ user.usergroup_set.all.0.user_type|title }}</span> {% endif %}
                                 </td>
                                 <td>@{{ user.username }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'remove_user' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn"><i class="fa fa-times"
+                                                                                        style="color: red;"></i>
+                                        </button>
+                                        <input type="hidden" name="id" value="{{ user.id }}"/>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

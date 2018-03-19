@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 
-from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm
+from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm, UserAddForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
@@ -79,8 +79,10 @@ def security_settings(request):
 
     groups = GroupAccess.objects.all().order_by('id')
     forms_array = [{'id': group.id, 'form': GroupAccessForm(instance=group)} for group in groups]
+    user_form = UserEditForm()
     return render(request, 'settings_security.html',
-                  {'tab': 'security_settings', 'users': users, 'groups': groups, 'form_array': forms_array})
+                  {'tab': 'security_settings', 'users': users, 'groups': groups, 'form_array': forms_array,
+                   'user_form': user_form})
 
 
 @login_required(login_url='/login/')
@@ -104,6 +106,22 @@ class SignUpView(FormView):
         add_user_regular_group(new_user)
         login(self.request, new_user)
         return super(SignUpView, self).form_valid(form)
+
+
+def user_add(request):
+    if request.POST:
+        requested_data = request.POST.copy()
+        create_user_form = UserAddForm(requested_data)
+        if create_user_form.is_valid():
+            user = create_user_form.save()
+            group = UserGroup.objects.filter(user_type=requested_data.get('group')).first()
+            if user not in group.users.all():
+                group.users.add(user)
+        else:
+            return render(request, 'settings_add_user.html', {'tab': 'security_settings', 'form': create_user_form})
+        return redirect(reverse('security_settings'))
+    form = UserAddForm()
+    return render(request, 'settings_add_user.html', {'tab': 'security_settings', 'form': form})
 
 
 def user_edit(request):

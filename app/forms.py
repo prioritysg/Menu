@@ -45,3 +45,11 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'group')
+
+
+class UserAddForm(forms.ModelForm):
+    group = forms.ChoiceField(choices=UserGroup.USER_TYPES)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'group','username')

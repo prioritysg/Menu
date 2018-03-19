@@ -38,7 +38,7 @@
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_user">
             <div class="row">
-                <a href="{% url 'add_user' %}" class="btn btn-primary"> Add User</a>
+                <a href="{% url 'add_user' %}" class="btn btn-success pull-right"> <i class="fa fa-plus"></i></a>
                 <div class="col-lg-12">
                     <div class="col-lg-12">
                         {% for user in users %}
@@ -71,36 +71,6 @@
                             </div>
 
                         {% endfor %}
-                    </div>
-
-                    <div class="col-lg-12">
-
-                        <div class="modal fade" id="useradd" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form role="form" method="post" action="{% url 'add_user' %}">
-                                            {% csrf_token %}
-                                            <div class="login-form">
-                                                <h2 class="heading">Add</h2>
-                                                {% bootstrap_form user_form %}
-                                                {% buttons %}
-                                                    <button type="submit" class="btn btn-success">Submit <span
-                                                            class="glyphicon glyphicon-log-in"></span></button>
-                                                {% endbuttons %}
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
 
@@ -136,9 +106,9 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    <button type="button" class="btn" data-toggle="modal"
                                             data-target="#usermodal_{{ user.id }}">
-                                        Edit
+                                        <i class="fa fa-edit"></i>
                                     </button>
                                 </td>
                             </tr>

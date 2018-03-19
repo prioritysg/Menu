@@ -39,6 +39,39 @@
         <div role="tabpanel" class="tab-pane fade" id="inner_user">
             <div class="row">
                 <div class="col-lg-12">
+                    <div class="col-lg-12">
+                        {% for user in users %}
+                            <div class="modal fade" id="usermodal_{{ user.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form role="form" method="post" action="{% url 'edit_user' %}">
+                                                {% csrf_token %}
+                                                <div class="login-form">
+                                                    <h2 class="heading">Edit</h2>
+                                                    {% bootstrap_form user.form %}
+                                                    {% buttons %}
+                                                        <button type="submit" class="btn btn-success">Submit <span
+                                                                class="glyphicon glyphicon-log-in"></span></button>
+                                                        <input type="hidden" name="id" value="{{ user.id }}"/>
+                                                    {% endbuttons %}
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+
 
                     <table class="table">
                         <thead class="thead-inverse">
@@ -48,6 +81,7 @@
                             <th>Last Name</th>
                             <th>Group</th>
                             <th>Username</th>
+                            <th></th>
                             <th></th>
                         </tr>
                         </thead>
@@ -65,10 +99,16 @@
                                     <form method="post" action="{% url 'remove_user' %}">
                                         {% csrf_token %}
                                         <button type="submit" class="btn"><i class="fa fa-times"
-                                                                                        style="color: red;"></i>
+                                                                             style="color: red;"></i>
                                         </button>
                                         <input type="hidden" name="id" value="{{ user.id }}"/>
                                     </form>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#usermodal_{{ user.id }}">
+                                        Edit
+                                    </button>
                                 </td>
                             </tr>
                         {% endfor %}

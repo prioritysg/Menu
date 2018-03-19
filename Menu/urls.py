@@ -20,8 +20,10 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from app.forms import UserLoginForm
-from app.views import (index, receiving, item, settings as setting_view, SignUpView, home, shipping, mobile, reports, inventory
-, organization_settings, client_settings, security_settings, remove_user)
+from app.views import (index, receiving, item, settings as setting_view, SignUpView, home, shipping, mobile, reports,
+                       inventory
+, organization_settings, client_settings, security_settings, remove_user, user_edit)
+
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', index, name='index'),
@@ -37,6 +39,7 @@ urlpatterns = [
                   path('item', item, name='item'),
                   path('settings', setting_view, name='settings'),
                   path('remove/user/', remove_user, name='remove_user'),
+                  path('edit/user/', user_edit, name='edit_user'),
                   path(r'login/', auth_views.login,
                        {'template_name': 'login.html', 'authentication_form': UserLoginForm},
                        name='login'),

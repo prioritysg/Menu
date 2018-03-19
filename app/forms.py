@@ -2,7 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCre
 from django.contrib.auth.models import User
 from django import forms
 
-from app.models import GroupAccess
+from app.models import GroupAccess, UserGroup
 
 
 class UserLoginForm(AuthenticationForm):
@@ -37,3 +37,11 @@ class GroupAccessForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(GroupAccessForm, self).__init__(*args, **kwargs)
         self.fields['user_group'].widget.attrs['disabled'] = 'disabled'
+
+
+class UserEditForm(forms.ModelForm):
+    group = forms.ChoiceField(choices=UserGroup.USER_TYPES)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'group')

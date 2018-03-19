@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 
-from app.forms import UserSignUpForm, GroupAccessForm
+from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
@@ -66,14 +66,17 @@ def reports(request):
 @login_required(login_url='/login/')
 def security_settings(request):
     if request.POST:
-        requestd_data = request.POST.copy()
+        requested_data = request.POST.copy()
         updated_group = GroupAccess.objects.get(id=request.POST.get('id'))
-        requestd_data['user_group'] = updated_group.id
-        updated_form = GroupAccessForm(requestd_data, instance=updated_group)
+        requested_data['user_group'] = updated_group.id
+        updated_form = GroupAccessForm(requested_data, instance=updated_group)
         if updated_form.is_valid():
             updated_form.save()
 
     users = User.objects.all()
+    for user in users:
+        setattr(user, 'form', UserEditForm(instance=user))
+
     groups = GroupAccess.objects.all().order_by('id')
     forms_array = [{'id': group.id, 'form': GroupAccessForm(instance=group)} for group in groups]
     return render(request, 'settings_security.html',
@@ -101,3 +104,18 @@ class SignUpView(FormView):
         add_user_regular_group(new_user)
         login(self.request, new_user)
         return super(SignUpView, self).form_valid(form)
+
+
+def user_edit(request):
+    requested_data = request.POST.copy()
+    user_to_edit = User.objects.get(id=request.POST.get('id'))
+    updated_form = UserEditForm(requested_data, instance=user_to_edit)
+    if updated_form.is_valid():
+        user = updated_form.save()
+        group = UserGroup.objects.filter(user_type=requested_data.get('group')).first()
+        if user not in group.users.all():
+            if user.usergroup_set.all():
+                user.usergroup_set.all().first().users.remove(user)
+            group.users.add(user)
+
+    return redirect(reverse('security_settings'))

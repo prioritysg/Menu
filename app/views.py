@@ -79,7 +79,7 @@ def security_settings(request):
         if updated_form.is_valid():
             updated_form.save()
 
-    users = User.objects.all()
+    users = User.objects.all().order_by('id')
     for user in users:
         setattr(user, 'form', UserEditForm(instance=user))
 

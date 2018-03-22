@@ -21,10 +21,10 @@
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#inner_user" role="tab" data-toggle="tab">User</a>
+                    <a class="nav-link inner_user" href="#inner_user" role="tab" data-toggle="tab">User</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#inner_user_group" role="tab" data-toggle="tab">User Group</a>
+                    <a class="nav-link inner_group" href="#inner_user_group" role="tab" data-toggle="tab">User Group</a>
                 </li>
             </ul>
         </div>
@@ -95,15 +95,58 @@
                                 <td> {% if user.usergroup_set.all.0.user_type %}
                                     <span class="badge badge-pill badge-success"> {{ user.usergroup_set.all.0.user_type|title }}</span> {% endif %}
                                 </td>
-                                <td>@{{ user.username }}</td>
+                                <td>{{ user.username }}</td>
                                 <td>
-                                    <form method="post" action="{% url 'remove_user' %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn"><i class="fa fa-times"
-                                                                             style="color: red;"></i>
-                                        </button>
-                                        <input type="hidden" name="id" value="{{ user.id }}"/>
-                                    </form>
+
+
+                                    <div class="modal fade" id="userformmodal_{{ user.id }}" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label>Are you sure? <br> Type Yes or No</label>
+                                                    <div class="form-group row">
+                                                        <div class="col-10">
+                                                            <input id="user_input_{{ user.id }}" class="form-control"
+                                                                   type="text"
+                                                                   id="example-text-input">
+                                                        </div>
+                                                    </div>
+
+
+                                                    <button type="submit" onclick="confirm_delete('{{ user.id }}')"
+                                                            id='formbutton_{{ user.id }}' class="btn">Ok
+                                                    </button>
+
+                                                    <form id='user_delete_form_{{ user.id }}' method="post"
+                                                          action="{% url 'remove_user' %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" id='formbutton_{{ user.id }}' class="btn"
+                                                                hidden>
+                                                            <i class="fa fa-times"
+                                                               style="color: red;"></i>
+                                                        </button>
+                                                        <input type="hidden" name="id" value="{{ user.id }}"/>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn" data-toggle="modal"
+                                            data-target="#userformmodal_{{ user.id }}">
+                                        <i class="fa fa-times" style="color: red;"></i>
+                                    </button>
+
                                 </td>
                                 <td>
                                     <button type="button" class="btn" data-toggle="modal"
@@ -228,5 +271,30 @@
         </div>
     </div>
 
+    <script>
+
+
+        $(document).ready(function () {
+            if ('{{ next_tab }}' == 'user') {
+                $('.inner_user').click();
+            } else if ('{{ next_tab }}' == 'group') {
+                $('.inner_group').click();
+            }
+
+        });
+
+        function confirm_delete(val) {
+            var user_input_name = '#user_input_' + val;
+            if ($(user_input_name).val().toLowerCase() == 'yes') {
+                var form_name = '#user_delete_form_' + val;
+                $(form_name).submit()
+            }
+            else {
+                $(".close").click();
+                $(user_input_name).val('')
+            }
+        }
+
+    </script>
 
 {% endblock content %}

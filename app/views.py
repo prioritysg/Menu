@@ -65,11 +65,17 @@ def reports(request):
 
 @login_required(login_url='/login/')
 def security_settings(request):
+    next_tab = None
+    if 'next_tab' in request.session:
+        next_tab = request.session.get('next_tab')
+        del request.session['next_tab']
+        request.session.modified = True
     if request.POST:
         requested_data = request.POST.copy()
         updated_group = GroupAccess.objects.get(id=request.POST.get('id'))
         requested_data['user_group'] = updated_group.id
         updated_form = GroupAccessForm(requested_data, instance=updated_group)
+        next_tab = 'group'
         if updated_form.is_valid():
             updated_form.save()
 
@@ -82,7 +88,7 @@ def security_settings(request):
     user_form = UserEditForm()
     return render(request, 'settings_security.html',
                   {'tab': 'security_settings', 'users': users, 'groups': groups, 'form_array': forms_array,
-                   'user_form': user_form})
+                   'user_form': user_form, 'next_tab': next_tab})
 
 
 @login_required(login_url='/login/')
@@ -119,7 +125,10 @@ def user_add(request):
                 group.users.add(user)
         else:
             return render(request, 'settings_add_user.html', {'tab': 'security_settings', 'form': create_user_form})
+
+        request.session['next_tab'] = 'user'
         return redirect(reverse('security_settings'))
+
     form = UserAddForm()
     return render(request, 'settings_add_user.html', {'tab': 'security_settings', 'form': form})
 
@@ -136,4 +145,5 @@ def user_edit(request):
                 user.usergroup_set.all().first().users.remove(user)
             group.users.add(user)
 
+    request.session['next_tab'] = 'user'
     return redirect(reverse('security_settings'))

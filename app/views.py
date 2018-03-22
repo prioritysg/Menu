@@ -124,13 +124,13 @@ def user_add(request):
             if user not in group.users.all():
                 group.users.add(user)
         else:
-            return render(request, 'settings_add_user.html', {'tab': 'security_settings', 'form': create_user_form})
+            return render(request, 'settings_security_user_adduser.html', {'tab': 'security_settings', 'form': create_user_form})
 
         request.session['next_tab'] = 'user'
         return redirect(reverse('security_settings'))
 
     form = UserAddForm()
-    return render(request, 'settings_add_user.html', {'tab': 'security_settings', 'form': form})
+    return render(request, 'settings_security_user_adduser.html', {'tab': 'security_settings', 'form': form})
 
 
 def user_edit(request):

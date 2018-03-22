@@ -24,6 +24,9 @@ class UserGroup(models.Model):
     def __str__(self):
         return self.user_type
 
+    class Meta:
+        db_table = 'app_user_group'
+
 
 class GroupAccess(models.Model):
     NO_ACCESS = '0'
@@ -34,7 +37,8 @@ class GroupAccess(models.Model):
         (READ, 'Read'),
         (READ_WRITE, 'Read Write'),
     )
-    user_group = models.ForeignKey(UserGroup, on_delete=models.CASCADE)
+
+    user_group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, db_column='app_user_group_link')
     receiving = models.CharField(max_length=5, choices=ACCESSES, default=NO_ACCESS)
     shipping = models.CharField(max_length=5, choices=ACCESSES, default=NO_ACCESS)
     mobile = models.CharField(max_length=5, choices=ACCESSES, default=NO_ACCESS)
@@ -47,3 +51,6 @@ class GroupAccess(models.Model):
 
     def __str__(self):
         return self.user_group.user_type
+
+    class Meta:
+        db_table = 'app_user_group_access'

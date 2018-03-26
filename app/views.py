@@ -3,11 +3,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 
-from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm, UserAddForm
+from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm, UserAddForm, OrganizationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
-from app.models import UserGroup, GroupAccess
+from app.models import UserGroup, GroupAccess, Organization
 from app.utils import add_user_regular_group
 
 
@@ -41,8 +41,39 @@ def mobile(request):
 
 
 @login_required(login_url='/login/')
+def organization_add(request):
+    form = OrganizationForm()
+    if request.POST:
+        form = OrganizationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('organization_settings'))
+
+    return render(request, 'settings_organization_add_edit.html',
+                  {'tab': 'organization_settings', 'form': form, 'add': True})
+
+
+@login_required(login_url='/login/')
+def organization_edit(request, organization_id):
+    instance = Organization.objects.get(id=organization_id)
+
+    if request.POST:
+        form = OrganizationForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('organization_settings'))
+    else:
+        form = OrganizationForm(instance=instance)
+
+    return render(request, 'settings_organization_add_edit.html',
+                  {'tab': 'organization_settings', 'form': form})
+
+
+@login_required(login_url='/login/')
 def organization_settings(request):
-    return render(request, 'settings_organization.html', {'tab': 'organization_settings'})
+    organizations = Organization.objects.all().order_by('-id')
+    return render(request, 'settings_organization.html',
+                  {'tab': 'organization_settings', 'organizations': organizations})
 
 
 @login_required(login_url='/login/')
@@ -124,7 +155,8 @@ def user_add(request):
             if user not in group.users.all():
                 group.users.add(user)
         else:
-            return render(request, 'settings_security_user_adduser.html', {'tab': 'security_settings', 'form': create_user_form})
+            return render(request, 'settings_security_user_adduser.html',
+                          {'tab': 'security_settings', 'form': create_user_form})
 
         request.session['next_tab'] = 'user'
         return redirect(reverse('security_settings'))

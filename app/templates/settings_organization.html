@@ -41,109 +41,18 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="inner_organization">
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <a href="{% url 'organization_add' %}" class="btn btn-default"> <i
-                            class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
-                </div>
-
-
-                <div class="col-lg-12">
-                    <table class="table">
-                        <thead class="thead-inverse">
-                        <tr>
-                            <th>#</th>
-                            <th>Org_id</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>City</th>
-                            <th>State</th>
-                            <th>Active</th>
-                            <th>Edit</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for org in organizations %}
-                            <tr>
-                                <td>{{ org.id }}</td>
-                                <td>{{ org.org_id }}</td>
-                                <td>{{ org.get_category_display }}</td>
-                                <td>{{ org.description }}</td>
-                                <td>{{ org.mt_city }}</td>
-                                <td>{{ org.mt_state }}</td>
-                                <td> {% if org.active %}  <i class="fa fa-check" style="color: green"></i>
-                                {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>
-                                <td>
-                                    <a href="{% url 'organization_edit' org.id %}"><i class="fa fa-edit"></i></a>
-                                </td>
-                            </tr>
-
-                        {% endfor %}
-
-                        {% for group in groups %}
-                            <tr>
-                                <td>{{ group.id }}</td>
-                                <td scope="row">
-                                    {{ group.user_group.user_type }}
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.receiving %}
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.shipping %}
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.mobile %}
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.inventory %}
-
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.items %}
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.reports %}
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.organization %}
-                                </td>
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.security %}
-                                </td>
-
-                                <td>
-                                    {% include "settings_security_usergroup_style.html" with tab_value=group.client %}
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#exampleModal_{{ group.id }}">
-                                        Edit
-                                    </button>
-                                </td>
-
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-
-
-                </div>
-
-            </div>
-
+            {% include "settings_organization_tab.html" with organizations=organizations %}
 
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_client_details">
-            Client Details Here
-
+            {% include "settings_organization_tab.html" with organizations=organizations filter=1 %}
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_customer_details">
-            Customer Details Here
+            {% include "settings_organization_tab.html" with organizations=organizations filter=2 %}
 
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_carrier_details">
-            Carrier Details Here
+            {% include "settings_organization_tab.html" with organizations=organizations filter=3 %}
 
         </div>
 

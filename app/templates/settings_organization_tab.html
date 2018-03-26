@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-lg-12">
+        <a href="{% url 'organization_add' %}" class="btn btn-default"> <i
+                class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
+    </div>
+
+    <div class="col-lg-12">
+        <table class="table">
+            <thead class="thead-inverse">
+            <tr>
+                <th>#</th>
+                <th>Org_id</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Active</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for org in organizations %}
+                {% if not filter or filter == org.category %}
+                    <tr>
+                        <td>{{ org.id }}</td>
+                        <td>{{ org.org_id }}</td>
+                        <td>{{ org.get_category_display }}</td>
+                        <td>{{ org.description }}</td>
+                        <td>{{ org.mt_city }}</td>
+                        <td>{{ org.mt_state }}</td>
+                        <td> {% if org.active %}  <i class="fa fa-check" style="color: green"></i>
+                        {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>
+                        <td>
+                            <a href="{% url 'organization_edit' org.id %}"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>
+

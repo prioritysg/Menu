@@ -54,3 +54,36 @@ class GroupAccess(models.Model):
 
     class Meta:
         db_table = 'app_user_group_access'
+
+
+class Organization(models.Model):
+    CLIENT = 1
+    CUSTOMER = 2
+    CARRIER = 3
+    CATEGORIES_CHOICES = (
+        (CLIENT, 'Client'),
+        (CUSTOMER, 'Customer'),
+        (CARRIER, 'Carrier'),
+    )
+
+    org_id = models.CharField(max_length=16)
+    active = models.BooleanField(default=False)
+    category = models.PositiveSmallIntegerField(choices=CATEGORIES_CHOICES)
+    description = models.TextField()
+    mt_address1 = models.CharField(max_length=64)
+    mt_address2 = models.CharField(max_length=64, null=True, blank=True)
+    mt_address3 = models.CharField(max_length=64, null=True, blank=True)
+    mt_city = models.CharField(max_length=64)
+    mt_state = models.CharField(max_length=16)
+    mt_zip = models.CharField(max_length=16)
+    mt_country = models.CharField(max_length=64)
+    st_address1 = models.CharField(max_length=64)
+    st_address2 = models.CharField(max_length=64, null=True, blank=True)
+    st_address3 = models.CharField(max_length=64, null=True, blank=True)
+    st_city = models.CharField(max_length=64)
+    st_state = models.CharField(max_length=16)
+    st_zip = models.CharField(max_length=16)
+    st_country = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.org_id

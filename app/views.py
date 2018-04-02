@@ -3,11 +3,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 
-from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm, UserAddForm, OrganizationForm
+from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm, UserAddForm, OrganizationForm, \
+    OrganizationsClientChargeCodeForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
-from app.models import UserGroup, GroupAccess, Organization
+from app.models import UserGroup, GroupAccess, Organization, OrganizationsClientChargeCode
 from app.utils import add_user_regular_group
 
 
@@ -49,6 +50,7 @@ def organization_add(request):
             form.save()
             return redirect(reverse('organization_settings'))
 
+    request.session['next_tab'] = 'org'
     return render(request, 'settings_organization_add_edit.html',
                   {'tab': 'organization_settings', 'form': form, 'add': True})
 
@@ -65,15 +67,55 @@ def organization_edit(request, organization_id):
     else:
         form = OrganizationForm(instance=instance)
 
+    request.session['next_tab'] = 'org'
     return render(request, 'settings_organization_add_edit.html',
                   {'tab': 'organization_settings', 'form': form})
 
 
 @login_required(login_url='/login/')
+def organization_client_charge_add(request):
+    form = OrganizationsClientChargeCodeForm()
+    if request.POST:
+        form = OrganizationsClientChargeCodeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('organization_settings'))
+
+    request.session['next_tab'] = 'client'
+    return render(request, 'settings_organization_client_add_edit.html',
+                  {'tab': 'organization_settings', 'form': form, 'add': True})
+
+
+@login_required(login_url='/login/')
+def organization_client_charge_edit(request, organization_id):
+    instance = Organization.objects.get(id=organization_id)
+
+    if request.POST:
+        form = OrganizationsClientChargeCodeForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('organization_settings'))
+    else:
+        form = OrganizationsClientChargeCodeForm(instance=instance)
+
+    request.session['next_tab'] = 'client'
+    return render(request, 'settings_organization_client_add_edit.html',
+                  {'tab': 'organization_settings', 'form': form})
+
+
+@login_required(login_url='/login/')
 def organization_settings(request):
+    next_tab = 'org'
+    if 'next_tab' in request.session:
+        next_tab = request.session.get('next_tab')
+        del request.session['next_tab']
+        request.session.modified = True
+
     organizations = Organization.objects.all().order_by('-id')
+    organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
     return render(request, 'settings_organization.html',
-                  {'tab': 'organization_settings', 'organizations': organizations})
+                  {'tab': 'organization_settings', 'organizations': organizations,
+                   'organizations_charge': organizations_charge, 'next_tab': next_tab})
 
 
 @login_required(login_url='/login/')

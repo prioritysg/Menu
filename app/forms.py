@@ -2,7 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCre
 from django.contrib.auth.models import User
 from django import forms
 
-from app.models import GroupAccess, UserGroup, Organization
+from app.models import GroupAccess, UserGroup, Organization, OrganizationsClientChargeCode
 
 
 class UserLoginForm(AuthenticationForm):
@@ -59,7 +59,9 @@ class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
         fields = '__all__'
-        #     (
-        # 'org_id', 'category', 'description', 'mt_address1', 'mt_address2', 'mt_address3', 'mt_city', 'mt_state',
-        # 'mt_zip', 'mt_country', 'st_address1', 'st_address2', 'st_address3', 'st_city', 'st_state', 'st_zip',
-        # 'st_country', 'active',)
+
+
+class OrganizationsClientChargeCodeForm(forms.ModelForm):
+    class Meta:
+        model = OrganizationsClientChargeCode
+        fields = '__all__'

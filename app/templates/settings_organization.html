@@ -22,7 +22,7 @@
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#inner_client_details" role="tab" data-toggle="tab">Client Details</a>
+                    <a class="nav-link inner_client" href="#inner_client_details" role="tab" data-toggle="tab">Client Details</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#inner_customer_details" role="tab" data-toggle="tab">Customer Details</a>
@@ -45,7 +45,7 @@
 
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_client_details">
-            {% include "settings_organization_tab.html" with organizations=organizations filter=1 %}
+            {% include "settings_organization_client_tab.html" with organizations_charge=organizations_charge %}
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_customer_details">
             {% include "settings_organization_tab.html" with organizations=organizations filter=2 %}
@@ -64,7 +64,13 @@
 
     <script>
         $(document).ready(function () {
-            $('.inner_org').click();
+            if ('{{ next_tab }}' == 'org') {
+                $('.inner_org').click();
+            } else if ('{{ next_tab }}' == 'client') {
+                $('.inner_client').click();
+            }
+
+
         });
     </script>
 

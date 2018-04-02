@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-lg-12">
+        <a href="{% url 'organization_charge_add' %}" class="btn btn-default"> <i
+                class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
+    </div>
+
+    <div class="col-lg-12">
+        <table class="table">
+            <thead class="thead-inverse">
+            <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>Charge Code</th>
+                <th>Description</th>
+                <th>Rate Per</th>
+                <th>Rate</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for org in organizations_charge %}
+                <tr>
+                    <td>{{ org.id }}</td>
+                    <td>{{ org.organization }}</td>
+                    <td>{{ org.get_charge_code_display }}</td>
+                    <td>{{ org.get_description_display }}</td>
+                    <td>{{ org.get_rate_per_display }}</td>
+                    <td>${{ org.rate }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>
+

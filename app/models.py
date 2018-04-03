@@ -66,10 +66,10 @@ class Organization(models.Model):
         (CARRIER, 'Carrier'),
     )
 
-    org_id = models.CharField(max_length=16)
+    org_id = models.CharField(max_length=16,unique=True)
     active = models.BooleanField(default=False)
     category = models.PositiveSmallIntegerField(choices=CATEGORIES_CHOICES)
-    description = models.TextField()
+    description = models.CharField(max_length=64)
     mt_address1 = models.CharField(max_length=64)
     mt_address2 = models.CharField(max_length=64, null=True, blank=True)
     mt_address3 = models.CharField(max_length=64, null=True, blank=True)

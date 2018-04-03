@@ -201,38 +201,38 @@ class OrganizationsClientChargeCode(models.Model):
         db_table = 'app_organizations_client_chargecodes'
 
 
-# class OrganizationsCarrierDetail(models.Model):
-#     LTL = 'ltl'
-#     PARCEL = 'parcel'
-#
-#     CARRIER_TYPE_CHOICES = ((LTL, 'LTL'), (PARCEL, 'Parcel'))
-#
-#     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, )
-#     carrier_type = models.CharField(max_length=15, choices=CARRIER_TYPE_CHOICES)
-#     carrier_scac = models.CharField(max_length=8)
-#     domestic_1am_active = models.BooleanField(default=True)
-#     domestic_1am_scac = models.CharField(max_length=8)
-#     domestic_1_active = models.BooleanField(default=True)
-#     domestic_1_scac = models.CharField(max_length=8)
-#     domestic_2am_active = models.BooleanField(default=True)
-#     domestic_2am_scac = models.CharField(max_length=8)
-#     domestic_2_active = models.BooleanField(default=True)
-#     domestic_2_scac = models.CharField(max_length=8)
-#     domestic_3_active = models.BooleanField(default=True)
-#     domestic_3_scac = models.CharField(max_length=8)
-#     domestic_ground_active = models.BooleanField(default=True)
-#     domestic_ground_scac = models.CharField(max_length=8)
-#     intl_1_active = models.BooleanField(default=True)
-#     intl_1_scac = models.CharField(max_length=8)
-#     intl_2_active = models.BooleanField(default=True)
-#     intl_2_scac = models.CharField(max_length=8)
-#     intl_3_active = models.BooleanField(default=True)
-#     intl_3_scac = models.CharField(max_length=8)
-#     intl_ground_active = models.BooleanField(default=True)
-#     intl_ground_scac = models.CharField(max_length=8)
-#
-#     def __str__(self):
-#         return self.carrier_type
-#
-#     class Meta:
-#         db_table = 'app_organizations_carrier_details'
+class OrganizationsCarrierDetail(models.Model):
+    LTL = 'ltl'
+    PARCEL = 'parcel'
+
+    CARRIER_TYPE_CHOICES = ((LTL, 'LTL'), (PARCEL, 'Parcel'))
+
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, )
+    carrier_type = models.CharField(max_length=15, choices=CARRIER_TYPE_CHOICES)
+    carrier_scac = models.CharField(max_length=8)
+    domestic_1am_active = models.BooleanField(default=True)
+    domestic_1am_scac = models.CharField(max_length=8)
+    domestic_1_active = models.BooleanField(default=True)
+    domestic_1_scac = models.CharField(max_length=8)
+    domestic_2am_active = models.BooleanField(default=True)
+    domestic_2am_scac = models.CharField(max_length=8)
+    domestic_2_active = models.BooleanField(default=True)
+    domestic_2_scac = models.CharField(max_length=8)
+    domestic_3_active = models.BooleanField(default=True)
+    domestic_3_scac = models.CharField(max_length=8)
+    domestic_ground_active = models.BooleanField(default=True)
+    domestic_ground_scac = models.CharField(max_length=8)
+    intl_1_active = models.BooleanField(default=True)
+    intl_1_scac = models.CharField(max_length=8)
+    intl_2_active = models.BooleanField(default=True)
+    intl_2_scac = models.CharField(max_length=8)
+    intl_3_active = models.BooleanField(default=True)
+    intl_3_scac = models.CharField(max_length=8)
+    intl_ground_active = models.BooleanField(default=True)
+    intl_ground_scac = models.CharField(max_length=8)
+
+    def __str__(self):
+        return self.carrier_type
+
+    class Meta:
+        db_table = 'app_organizations_carrier_details'

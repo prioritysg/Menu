@@ -4,11 +4,11 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 
 from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm, UserAddForm, OrganizationForm, \
-    OrganizationsClientChargeCodeForm
+    OrganizationsClientChargeCodeForm, OrganizationsCarrierDetailForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
-from app.models import UserGroup, GroupAccess, Organization, OrganizationsClientChargeCode
+from app.models import UserGroup, GroupAccess, Organization, OrganizationsClientChargeCode, OrganizationsCarrierDetail
 from app.utils import add_user_regular_group
 
 
@@ -73,6 +73,37 @@ def organization_edit(request, organization_id):
 
 
 @login_required(login_url='/login/')
+def organization_carrier_add(request):
+    form = OrganizationsCarrierDetailForm()
+    if request.POST:
+        form = OrganizationsCarrierDetailForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('organization_settings'))
+
+    request.session['next_tab'] = 'carrier'
+    return render(request, 'settings_organization_carrier_add_edit.html',
+                  {'tab': 'organization_settings', 'form': form, 'add': True})
+
+
+@login_required(login_url='/login/')
+def organization_carrier_edit(request, organization_id):
+    instance = OrganizationsCarrierDetail.objects.get(id=organization_id)
+
+    if request.POST:
+        form = OrganizationsCarrierDetailForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('organization_settings'))
+    else:
+        form = OrganizationsCarrierDetailForm(instance=instance)
+
+    request.session['next_tab'] = 'carrier'
+    return render(request, 'settings_organization_carrier_add_edit.html',
+                  {'tab': 'organization_settings', 'form': form})
+
+
+@login_required(login_url='/login/')
 def organization_client_charge_add(request):
     form = OrganizationsClientChargeCodeForm()
     if request.POST:
@@ -88,8 +119,7 @@ def organization_client_charge_add(request):
 
 @login_required(login_url='/login/')
 def organization_client_charge_edit(request, organization_id):
-    instance = Organization.objects.get(id=organization_id)
-
+    instance = OrganizationsClientChargeCode.objects.get(id=organization_id)
     if request.POST:
         form = OrganizationsClientChargeCodeForm(request.POST, instance=instance)
         if form.is_valid():
@@ -113,9 +143,11 @@ def organization_settings(request):
 
     organizations = Organization.objects.all().order_by('-id')
     organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
+    organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
     return render(request, 'settings_organization.html',
                   {'tab': 'organization_settings', 'organizations': organizations,
-                   'organizations_charge': organizations_charge, 'next_tab': next_tab})
+                   'organizations_charge': organizations_charge, 'next_tab': next_tab,
+                   'organizations_carrier': organizations_carrier})
 
 
 @login_required(login_url='/login/')

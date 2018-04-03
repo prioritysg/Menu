@@ -28,7 +28,7 @@
                     <a class="nav-link" href="#inner_customer_details" role="tab" data-toggle="tab">Customer Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#inner_carrier_details" role="tab" data-toggle="tab">Carrier Details</a>
+                    <a class="nav-link inner_carrier" href="#inner_carrier_details" role="tab" data-toggle="tab">Carrier Details</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#inner_vendor_details" role="tab" data-toggle="tab">Vendor Details</a>
@@ -52,7 +52,7 @@
 
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_carrier_details">
-            {% include "settings_organization_tab.html" with organizations=organizations filter=3 %}
+            {% include "settings_organization_carrier_tab.html" with organizations_carrier=organizations_carrier %}
 
         </div>
 
@@ -68,6 +68,9 @@
                 $('.inner_org').click();
             } else if ('{{ next_tab }}' == 'client') {
                 $('.inner_client').click();
+            }
+            else if ('{{ next_tab }}' == 'carrier') {
+                $('.inner_carrier').click();
             }
 
 

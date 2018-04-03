@@ -23,7 +23,7 @@ from app.forms import UserLoginForm
 from app.views import (index, receiving, item, settings as setting_view, SignUpView, home, shipping, mobile, reports,
                        inventory, organization_settings, client_settings, security_settings, remove_user, user_edit,
                        user_add, organization_add, organization_edit, organization_client_charge_add,
-                       organization_client_charge_edit)
+                       organization_client_charge_edit, organization_carrier_edit, organization_carrier_add)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -41,6 +41,11 @@ urlpatterns = [
                   path('organization/charge/add', organization_client_charge_add, name='organization_charge_add'),
                   path('organization/charge/<int:organization_id>/edit', organization_client_charge_edit,
                        name='organization_charge_edit'),
+
+
+                  path('organization/carrier/add', organization_carrier_add, name='organization_carrier_add'),
+                  path('organization/carrier/<int:organization_id>/edit', organization_carrier_edit,
+                       name='organization_carrier_edit'),
 
                   path('security_settings', security_settings, name='security_settings'),
                   path('client_settings', client_settings, name='client_settings'),

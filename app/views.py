@@ -144,10 +144,15 @@ def organization_settings(request):
     organizations = Organization.objects.all().order_by('-id')
     organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
     organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
+
+    if request.POST and request.POST.get('search'):
+        search = request.POST.get('search')
+        organizations = Organization.objects.filter(org_id__icontains=search).order_by('-id')
+
     return render(request, 'settings_organization.html',
                   {'tab': 'organization_settings', 'organizations': organizations,
                    'organizations_charge': organizations_charge, 'next_tab': next_tab,
-                   'organizations_carrier': organizations_carrier})
+                   'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
 
 
 @login_required(login_url='/login/')

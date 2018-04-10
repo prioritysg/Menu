@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load startswith %}
 {% load static %}
 {% block content %}
     {% load bootstrap3 %}
@@ -10,21 +11,26 @@
                 <div class="login-form">
                     <h2 class="heading">Add Organization</h2>
                     {% bootstrap_form_errors form layout='inline' %}
+
                     {% for field in form %}
-                        {% if field.name == 'st_city ' or  field.name == 'st_state' or field.name == 'st_zip' or field.name == 'mt_city ' or  field.name == 'mt_state' or field.name == 'mt_zip' %}
-                        {% else %}
+                        {% if field.name == 'org_id' or  field.name == 'active' or field.name == 'category' or field.name == 'description' %}
                             {% bootstrap_field field form_group_class='col-md-12 form-group label-floating' layout='inline' %}
                         {% endif %}
                     {% endfor %}
 
-                    <div class="form-inline">
-                        {% for field in form %}
-                            {% if field.name == 'st_city' or  field.name == 'st_state' or field.name == 'st_zip' %}
-                                {% bootstrap_field field form_group_class='col-sm-4 label-floating' layout='inline' %}
+                    {% for field in form %}
+                        {% if field.name|startswith:'mt' %}
+                            {% if field.name == 'mt_city' or  field.name == 'mt_state' or field.name == 'mt_zip' %}
+                            {% else %}
+                                {% bootstrap_field field form_group_class='col-md-12 form-group label-floating' layout='inline' %}
                             {% endif %}
-                        {% endfor %}
-                    </div>
+                        {% endif %}
+
+                    {% endfor %}
+
+
                     <br/>
+
                     <div class="form-inline">
                         {% for field in form %}
                             {% if field.name == 'mt_city' or  field.name == 'mt_state' or field.name == 'mt_zip' %}
@@ -33,7 +39,28 @@
                         {% endfor %}
                     </div>
 
+                    <br/>
 
+                    {% for field in form %}
+                        {% if field.name|startswith:'st' %}
+                            {% if field.name == 'st_city' or  field.name == 'st_state' or field.name == 'st_zip' %}
+                            {% else %}
+                                {% bootstrap_field field form_group_class='col-md-12 form-group label-floating' layout='inline' %}
+                            {% endif %}
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    <br/>
+
+                    <div class="form-inline">
+                        {% for field in form %}
+                            {% if field.name == 'st_city' or  field.name == 'st_state' or field.name == 'st_zip' %}
+                                {% bootstrap_field field form_group_class='col-sm-4 label-floating' layout='inline' %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                     <br/>
                     {% buttons %}
                         <button type="submit" class="btn btn-success">Submit <span

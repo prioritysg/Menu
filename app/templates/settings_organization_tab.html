@@ -24,8 +24,21 @@
 
 {% if filter != False %}
     <div class="col-lg-12">
+    {% if filter == 1 %}
+        <a href="{% url 'organization_add' %}?org_type=client" class="btn btn-default"> <i
+                class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
+    {% elif filter == 2 %}
+        <a href="{% url 'organization_add' %}?org_type=customer" class="btn btn-default"> <i
+                class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
+    {% elif filter == 3 %}
+        <a href="{% url 'organization_add' %}?org_type=carrier" class="btn btn-default"> <i
+                class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
+    {% else %}
         <a href="{% url 'organization_add' %}" class="btn btn-default"> <i
                 class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
+    {% endif %}
+
+
     </div>
 {% endif %}
 
@@ -41,6 +54,12 @@
                 <th>City</th>
                 <th>State</th>
                 <th>Active</th>
+                {% if filter == 1 %}
+                    <th>Invoice</th>
+                {% endif %}
+                {% if filter == 3 %}
+                    <th>Details</th>
+                {% endif %}
                 <th>Edit</th>
             </tr>
             </thead>
@@ -56,6 +75,12 @@
                         <td>{{ org.mt_state }}</td>
                         <td> {% if org.active %}  <i class="fa fa-check" style="color: green"></i>
                         {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>
+                        {% if filter == 1 %}
+                            <th><i class="fa fa-check" style="color: green" onclick="customerInvoices()"></i></th>
+                        {% endif %}
+                        {% if filter == 3 %}
+                            <th><i class="fa fa-check" style="color: green" onclick="carrierCharges()"></i></th>
+                        {% endif %}
                         <td>
                             <a href="{% url 'organization_edit' org.id %}"><i class="fa fa-edit"></i></a>
                         </td>
@@ -71,3 +96,13 @@
 
 </div>
 
+<script>
+function carrierCharges(){
+    $('.inner_carrier_detail').click();
+}
+function customerInvoices(){
+    $('.inner_invoice').click();
+}
+
+
+</script>

@@ -50,7 +50,10 @@ def organization_add(request):
             form.save()
             return redirect(reverse('organization_settings'))
 
-    request.session['next_tab'] = 'org'
+    if request.GET.get('org_type'):
+        request.session['next_tab'] = request.GET.get('org_type')
+    else:
+        request.session['next_tab'] = 'org'
     return render(request, 'settings_organization_add_edit.html',
                   {'tab': 'organization_settings', 'form': form, 'add': True})
 
@@ -81,7 +84,7 @@ def organization_carrier_add(request):
             form.save()
             return redirect(reverse('organization_settings'))
 
-    request.session['next_tab'] = 'carrier'
+    request.session['next_tab'] = 'carrier_details'
     return render(request, 'settings_organization_carrier_add_edit.html',
                   {'tab': 'organization_settings', 'form': form, 'add': True})
 
@@ -98,7 +101,7 @@ def organization_carrier_edit(request, organization_id):
     else:
         form = OrganizationsCarrierDetailForm(instance=instance)
 
-    request.session['next_tab'] = 'carrier'
+    request.session['next_tab'] = 'carrier_details'
     return render(request, 'settings_organization_carrier_add_edit.html',
                   {'tab': 'organization_settings', 'form': form})
 
@@ -112,7 +115,7 @@ def organization_client_charge_add(request):
             form.save()
             return redirect(reverse('organization_settings'))
 
-    request.session['next_tab'] = 'client'
+    request.session['next_tab'] = 'invoice'
     return render(request, 'settings_organization_client_add_edit.html',
                   {'tab': 'organization_settings', 'form': form, 'add': True})
 

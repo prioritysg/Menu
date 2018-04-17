@@ -79,7 +79,7 @@
                             <th><a href="{% url 'organization_client_invoices' %}?org_id={{ org.id }}"> <i class="fa fa-check" style="color: green" onclick="customerInvoices()"></i></a></th>
                         {% endif %}
                         {% if filter == 3 %}
-                            <th><i class="fa fa-check" style="color: green" onclick="carrierCharges()"></i></th>
+                            <th><a href="{% url 'organization_carrier_details' %}?org_id={{ org.id }}"> <i class="fa fa-check" style="color: green"></i></a></th>
                         {% endif %}
                         <td>
                             <a href="{% url 'organization_edit' org.id %}"><i class="fa fa-edit"></i></a>

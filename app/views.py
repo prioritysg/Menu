@@ -50,7 +50,10 @@ def organization_add(request):
             new_organization = form.save()
             if new_organization.category == Organization.CLIENT:
                 return redirect(reverse('organization_client'))
-            return redirect(reverse('organization_settings'))
+            elif new_organization.category == Organization.CARRIER:
+                return redirect(reverse('organization_carrier'))
+
+            return redirect(reverse('organization_customer'))
 
     if request.GET.get('org_type'):
         request.session['next_tab'] = request.GET.get('org_type')
@@ -84,7 +87,7 @@ def organization_carrier_add(request):
         form = OrganizationsCarrierDetailForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse('organization_settings'))
+            return redirect(reverse('organization_carrier_details'))
 
     request.session['next_tab'] = 'carrier_details'
     return render(request, 'settings_organization_carrier_add_edit.html',
@@ -99,7 +102,7 @@ def organization_carrier_edit(request, organization_id):
         form = OrganizationsCarrierDetailForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            return redirect(reverse('organization_settings'))
+            return redirect(reverse('organization_carrier_details'))
     else:
         form = OrganizationsCarrierDetailForm(instance=instance)
 
@@ -129,7 +132,7 @@ def organization_client_charge_edit(request, organization_id):
         form = OrganizationsClientChargeCodeForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            return redirect(reverse('organization_settings'))
+            return redirect(reverse('organization_client_invoices'))
     else:
         form = OrganizationsClientChargeCodeForm(instance=instance)
 
@@ -246,10 +249,37 @@ def organization_carrier(request):
         search = request.POST.get('search')
         organizations = Organization.objects.filter(org_id__icontains=search).order_by('-id')
 
-    return render(request, 'settings_organization.html',
+    return render(request, 'organization_carrier.html',
                   {'tab': 'org_carrier', 'organizations': organizations,
                    'organizations_charge': organizations_charge, 'next_tab': next_tab,
                    'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
+
+
+@login_required(login_url='/login/')
+def organization_carrier_details(request):
+    next_tab = 'org'
+    if 'next_tab' in request.session:
+        next_tab = request.session.get('next_tab')
+        del request.session['next_tab']
+        request.session.modified = True
+
+    org_id = request.GET.get('org_id', 0) or 0
+    organizations = Organization.objects.all().order_by('-id')
+    organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
+    organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
+
+    if org_id:
+        organizations_carrier = organizations_carrier.filter(organization_id=org_id)
+
+    if request.POST and request.POST.get('search'):
+        search = request.POST.get('search')
+        organizations = Organization.objects.filter(org_id__icontains=search).order_by('-id')
+
+    return render(request, 'organization_carrier_details.html',
+                  {'tab': 'org_carrier', 'organizations': organizations,
+                   'organizations_charge': organizations_charge, 'next_tab': next_tab,
+                   'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
+
 
 
 @login_required(login_url='/login/')

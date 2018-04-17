@@ -1,10 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 
-</body>
-</html>
+    <style>
+        .nav-link.active {
+            color: #e64758 !important;
+        }
+    </style>
+
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+
+                <li class="nav-item">
+                    <a class="nav-link inner_carrier" href="#inner_carrier" role="tab"
+                       data-toggle="tab">Carrier</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link inner_carrier_details" href="{% url 'organization_carrier_details' %}" role="tab" >Carrier
+                        Details</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade" id="inner_carrier">
+            {% include "settings_organization_tab.html" with organizations=organizations filter=3 %}
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="inner_carrier_details">
+            {% include "settings_organization_carrier_tab.html" with organizations_carrier=organizations_carrier %}
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.inner_carrier').click();
+        });
+    </script>
+
+{% endblock content %}

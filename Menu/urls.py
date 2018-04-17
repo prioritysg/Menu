@@ -24,7 +24,8 @@ from app.views import (index, receiving, item, settings as setting_view, SignUpV
                        inventory, organization_settings, client_settings, security_settings, remove_user, user_edit,
                        user_add, organization_add, organization_edit, organization_client_charge_add,
                        organization_client_charge_edit, organization_carrier_edit, organization_carrier_add,
-                       organization_customer, organization_client, organization_carrier, organization_client_invoices)
+                       organization_customer, organization_client, organization_carrier, organization_client_invoices,
+                       organization_carrier_details)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -39,6 +40,7 @@ urlpatterns = [
 
                   path('organization_customer', organization_customer, name='organization_customer'),
                   path('organization_carrier', organization_carrier, name='organization_carrier'),
+                  path('organization_carrier_details', organization_carrier_details, name='organization_carrier_details'),
                   path('organization_client', organization_client, name='organization_client'),
                   path('organization_client_invoices', organization_client_invoices, name='organization_client_invoices'),
 

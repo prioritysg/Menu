@@ -47,7 +47,9 @@ def organization_add(request):
     if request.POST:
         form = OrganizationForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_organization = form.save()
+            if new_organization.category == Organization.CLIENT:
+                return redirect(reverse('organization_client'))
             return redirect(reverse('organization_settings'))
 
     if request.GET.get('org_type'):
@@ -113,7 +115,7 @@ def organization_client_charge_add(request):
         form = OrganizationsClientChargeCodeForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse('organization_settings'))
+            return redirect(reverse('organization_client_invoices'))
 
     request.session['next_tab'] = 'invoice'
     return render(request, 'settings_organization_client_add_edit.html',
@@ -154,6 +156,98 @@ def organization_settings(request):
 
     return render(request, 'settings_organization.html',
                   {'tab': 'organization_settings', 'organizations': organizations,
+                   'organizations_charge': organizations_charge, 'next_tab': next_tab,
+                   'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
+
+
+@login_required(login_url='/login/')
+def organization_client(request):
+    next_tab = 'org'
+    if 'next_tab' in request.session:
+        next_tab = request.session.get('next_tab')
+        del request.session['next_tab']
+        request.session.modified = True
+
+    organizations = Organization.objects.all().order_by('-id')
+    organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
+    organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
+
+    if request.POST and request.POST.get('search'):
+        search = request.POST.get('search')
+        organizations = Organization.objects.filter(org_id__icontains=search).order_by('-id')
+
+    return render(request, 'organization_client.html',
+                  {'tab': 'org_client', 'organizations': organizations,
+                   'organizations_charge': organizations_charge, 'next_tab': next_tab,
+                   'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
+
+
+@login_required(login_url='/login/')
+def organization_client_invoices(request):
+    next_tab = 'org'
+    if 'next_tab' in request.session:
+        next_tab = request.session.get('next_tab')
+        del request.session['next_tab']
+        request.session.modified = True
+
+    org_id = request.GET.get('org_id', 0) or 0
+    organizations = Organization.objects.all().order_by('-id')
+    organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
+    organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
+
+    if org_id:
+        organizations_charge = organizations_charge.filter(organization_id=org_id)
+
+    if request.POST and request.POST.get('search'):
+        search = request.POST.get('search')
+        organizations = Organization.objects.filter(org_id__icontains=search).order_by('-id')
+
+    return render(request, 'organization_client_invoice.html',
+                  {'tab': 'org_client', 'organizations': organizations,
+                   'organizations_charge': organizations_charge, 'next_tab': next_tab,
+                   'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
+
+
+@login_required(login_url='/login/')
+def organization_customer(request):
+    next_tab = 'org'
+    if 'next_tab' in request.session:
+        next_tab = request.session.get('next_tab')
+        del request.session['next_tab']
+        request.session.modified = True
+
+    organizations = Organization.objects.all().order_by('-id')
+    organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
+    organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
+
+    if request.POST and request.POST.get('search'):
+        search = request.POST.get('search')
+        organizations = Organization.objects.filter(org_id__icontains=search).order_by('-id')
+
+    return render(request, 'organization_customer.html',
+                  {'tab': 'org_customer', 'organizations': organizations,
+                   'organizations_charge': organizations_charge, 'next_tab': next_tab,
+                   'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
+
+
+@login_required(login_url='/login/')
+def organization_carrier(request):
+    next_tab = 'org'
+    if 'next_tab' in request.session:
+        next_tab = request.session.get('next_tab')
+        del request.session['next_tab']
+        request.session.modified = True
+
+    organizations = Organization.objects.all().order_by('-id')
+    organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
+    organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
+
+    if request.POST and request.POST.get('search'):
+        search = request.POST.get('search')
+        organizations = Organization.objects.filter(org_id__icontains=search).order_by('-id')
+
+    return render(request, 'settings_organization.html',
+                  {'tab': 'org_carrier', 'organizations': organizations,
                    'organizations_charge': organizations_charge, 'next_tab': next_tab,
                    'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})
 

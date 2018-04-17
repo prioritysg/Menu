@@ -97,19 +97,43 @@
                        class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i
                             class="fa fa-gear"></i> <span class="d-none d-md-inline">Reports</span></a>
 
+{#                    <a href="{% url 'organization_settings' %}" {% if tab == 'organization_settings' %}#}
+{#                       style="background-color: darkgray; color: black;"{% endif %}#}
+{#                       class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i#}
+{#                            class="fa fa-gear"></i> <span class="d-none d-md-inline">Organization</span></a>#}
+
 
                     {#                    <a href="{% url 'settings' %}" class="list-group-item d-inline-block collapsed"#}
                     {#                       data-parent="#sidebar" {% if tab == 'settings' %}#}
                     {#                       style="background-color: darkgray; color: black;"{% endif %}><i#}
                     {#                            class="fa fa-calendar"></i> <span class="d-none d-md-inline">Settings</span></a>#}
 
+
+
+
+                    <a href="#organization" class=" organization list-group-item d-inline-block collapsed"
+                       data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i
+                            class="fa fa-calendar"></i> <span class="d-none d-md-inline">Organization</span></a>
+
+                    <div class="collapse" id="organization">
+                        <a href="{% url 'organization_client' %}" {% if tab == 'org_client' %}
+                           style="padding-left: 50px;background-color: darkgray; color: black;"{% endif %}
+                           class="list-group-item" data-parent="#menu3" style="padding-left: 50px;">Client</a>
+                        <a href="{% url 'organization_customer' %}" {% if tab == 'org_customer' %}
+                           style="padding-left: 50px;background-color: darkgray; color: black;"{% endif %}
+                           class="list-group-item" data-parent="#menu3" style="padding-left: 50px;">Customer</a>
+                        <a href="{% url 'organization_carrier' %}" {% if tab == 'org_carrier' %}
+                           style="padding-left: 50px;background-color: darkgray; color: black;"{% endif %}
+                           class="list-group-item" data-parent="#menu3" style="padding-left: 50px;">Carrier</a>
+                    </div>
+
+
+
                     <a href="#settings" class=" settings list-group-item d-inline-block collapsed"
                        data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i
                             class="fa fa-calendar"></i> <span class="d-none d-md-inline">Settings</span></a>
+
                     <div class="collapse" id="settings">
-                        <a href="{% url 'organization_settings' %}" {% if tab == 'organization_settings' %}
-                           style="padding-left: 50px;background-color: darkgray; color: black;"{% endif %}
-                           class="list-group-item" data-parent="#menu3" style="padding-left: 50px;">Organization</a>
                         <a href="{% url 'security_settings' %}" {% if tab == 'security_settings' %}
                            style="padding-left: 50px;background-color: darkgray; color: black;"{% endif %}
                            class="list-group-item" data-parent="#menu3" style="padding-left: 50px;">Security</a>
@@ -128,9 +152,14 @@
 {% endif %}
 <script>
     $(document).ready(function () {
-        if (['organization_settings', 'security_settings', 'client_settings'].indexOf('{{ tab }}') > -1) {
+        if (['security_settings', 'client_settings'].indexOf('{{ tab }}') > -1) {
             console.log("ready!");
             $('.settings').click()
+        }
+
+        if (['org_client', 'org_customer','org_carrier'].indexOf('{{ tab }}') > -1) {
+            console.log("ready!");
+            $('.organization').click()
         }
 
     });

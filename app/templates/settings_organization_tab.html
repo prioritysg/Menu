@@ -76,7 +76,7 @@
                         <td> {% if org.active %}  <i class="fa fa-check" style="color: green"></i>
                         {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>
                         {% if filter == 1 %}
-                            <th><i class="fa fa-check" style="color: green" onclick="customerInvoices()"></i></th>
+                            <th><a href="{% url 'organization_client_invoices' %}?org_id={{ org.id }}"> <i class="fa fa-check" style="color: green" onclick="customerInvoices()"></i></a></th>
                         {% endif %}
                         {% if filter == 3 %}
                             <th><i class="fa fa-check" style="color: green" onclick="carrierCharges()"></i></th>

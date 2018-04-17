@@ -50,30 +50,30 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="inner_organization">
 
-            {% include "settings_organization_tab.html" with organizations=organizations filter=False %}
+            {% include "organization/settings_organization_tab.html" with organizations=organizations filter=False %}
 
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_client_details">
 
-            {% include "settings_organization_tab.html" with organizations=organizations filter=1 %}
+            {% include "organization/settings_organization_tab.html" with organizations=organizations filter=1 %}
             {#            {% include "settings_organization_client_tab.html" with organizations_charge=organizations_charge %}#}
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_customer_details">
-            {% include "settings_organization_tab.html" with organizations=organizations filter=2 %}
+            {% include "organization/settings_organization_tab.html" with organizations=organizations filter=2 %}
 
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_carrier_details">
-            {% include "settings_organization_tab.html" with organizations=organizations filter=3 %}
+            {% include "organization/settings_organization_tab.html" with organizations=organizations filter=3 %}
 
 
         </div>
 
         <div role="tabpanel" class="tab-pane fade" id="inner_client_charges">
-            {% include "settings_organization_client_tab.html" with organizations_charge=organizations_charge %}
+            {% include "organization/settings_organization_client_tab.html" with organizations_charge=organizations_charge %}
         </div>
 
         <div role="tabpanel" class="tab-pane fade" id="inner_carrier_detail">
-            {% include "settings_organization_carrier_tab.html" with organizations_carrier=organizations_carrier %}
+            {% include "organization/settings_organization_carrier_tab.html" with organizations_carrier=organizations_carrier %}
         </div>
         <div role="tabpanel" class="tab-pane fade" id="inner_vendor_details">
             Vendor Details Here

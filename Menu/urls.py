@@ -20,12 +20,11 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from app.forms import UserLoginForm
+from app.organization_views import organization_customer, organization_carrier, organization_carrier_details, \
+    organization_client, organization_client_invoices, organization_settings, organization_add, organization_edit, \
+    organization_client_charge_add, organization_client_charge_edit, organization_carrier_add, organization_carrier_edit
 from app.views import (index, receiving, item, settings as setting_view, SignUpView, home, shipping, mobile, reports,
-                       inventory, organization_settings, client_settings, security_settings, remove_user, user_edit,
-                       user_add, organization_add, organization_edit, organization_client_charge_add,
-                       organization_client_charge_edit, organization_carrier_edit, organization_carrier_add,
-                       organization_customer, organization_client, organization_carrier, organization_client_invoices,
-                       organization_carrier_details)
+                       inventory, client_settings, security_settings, remove_user, user_edit, user_add)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -37,12 +36,13 @@ urlpatterns = [
                   path('inventory', inventory, name='inventory'),
                   path('home', home, name='home'),
 
-
                   path('organization_customer', organization_customer, name='organization_customer'),
                   path('organization_carrier', organization_carrier, name='organization_carrier'),
-                  path('organization_carrier_details', organization_carrier_details, name='organization_carrier_details'),
+                  path('organization_carrier_details', organization_carrier_details,
+                       name='organization_carrier_details'),
                   path('organization_client', organization_client, name='organization_client'),
-                  path('organization_client_invoices', organization_client_invoices, name='organization_client_invoices'),
+                  path('organization_client_invoices', organization_client_invoices,
+                       name='organization_client_invoices'),
 
                   path('organization_settings', organization_settings, name='organization_settings'),
                   path('organization/add', organization_add, name='organization_add'),
@@ -51,7 +51,6 @@ urlpatterns = [
                   path('organization/charge/add', organization_client_charge_add, name='organization_charge_add'),
                   path('organization/charge/<int:organization_id>/edit', organization_client_charge_edit,
                        name='organization_charge_edit'),
-
 
                   path('organization/carrier/add', organization_carrier_add, name='organization_carrier_add'),
                   path('organization/carrier/<int:organization_id>/edit', organization_carrier_edit,

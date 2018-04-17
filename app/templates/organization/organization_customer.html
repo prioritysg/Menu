@@ -17,17 +17,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
-                <li class="nav-item">
-                    <a class="nav-link inner_client" href="{% url 'organization_client' %}" role="tab" >Client
-                        Details<span
-                                class="sr-only">(current)</span></a>
-                </li>
 
                 <li class="nav-item">
-                    <a class="nav-link inner_invoice" href="#inner_client_charges" role="tab"
-                       data-toggle="tab">Invoice</a>
+                    <a class="nav-link inner_customer" href="#inner_customer_details" role="tab" data-toggle="tab">Customer</a>
                 </li>
-
             </ul>
         </div>
     </nav>
@@ -35,19 +28,17 @@
     <!-- Tab panes -->
     <div class="tab-content">
 
-        <div role="tabpanel" class="tab-pane fade" id="inner_client_details">
-            {% include "settings_organization_tab.html" with organizations=organizations filter=1 %}
-        </div>
+        <div role="tabpanel" class="tab-pane fade" id="inner_customer_details">
+            {% include "organization/settings_organization_tab.html" with organizations=organizations filter=2 %}
 
-        <div role="tabpanel" class="tab-pane fade" id="inner_client_charges">
-            {% include "settings_organization_client_tab.html" with organizations_charge=organizations_charge %}
         </div>
-
     </div>
 
     <script>
         $(document).ready(function () {
-            $('.inner_invoice').click();
+
+            $('.inner_customer').click();
+
         });
     </script>
 

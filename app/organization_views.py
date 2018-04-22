@@ -22,7 +22,7 @@ def organization_add(request):
 
             return redirect(reverse('organization_customer'))
 
-    return render(request, 'organization/settings_organization_add_edit.html',
+    return render(request, 'organization/organization_add_edit.html',
                   {'tab': 'organization_settings', 'form': form, 'add': True})
 
 
@@ -38,7 +38,7 @@ def organization_edit(request, organization_id):
     else:
         form = OrganizationForm(instance=instance)
 
-    return render(request, 'organization/settings_organization_add_edit.html',
+    return render(request, 'organization/organization_add_edit.html',
                   {'tab': 'organization_settings', 'form': form})
 
 
@@ -51,7 +51,7 @@ def organization_carrier_add(request):
             form.save()
             return redirect(reverse('organization_carrier_details'))
 
-    return render(request, 'organization/settings_organization_carrier_add_edit.html',
+    return render(request, 'organization/organization_carrier_add_edit.html',
                   {'tab': 'organization_settings', 'form': form, 'add': True})
 
 
@@ -67,7 +67,7 @@ def organization_carrier_edit(request, organization_id):
     else:
         form = OrganizationsCarrierDetailForm(instance=instance)
 
-    return render(request, 'organization/settings_organization_carrier_add_edit.html',
+    return render(request, 'organization/organization_carrier_add_edit.html',
                   {'tab': 'organization_settings', 'form': form})
 
 
@@ -80,7 +80,7 @@ def organization_client_charge_add(request):
             form.save()
             return redirect(reverse('organization_client_invoices'))
 
-    return render(request, 'organization/settings_organization_client_add_edit.html',
+    return render(request, 'organization/organization_client_add_edit.html',
                   {'tab': 'organization_settings', 'form': form, 'add': True})
 
 
@@ -95,7 +95,7 @@ def organization_client_charge_edit(request, organization_id):
     else:
         form = OrganizationsClientChargeCodeForm(instance=instance)
 
-    return render(request, 'organization/settings_organization_client_add_edit.html',
+    return render(request, 'organization/organization_client_add_edit.html',
                   {'tab': 'organization_settings', 'form': form})
 
 
@@ -107,7 +107,7 @@ def organization_settings(request):
 
     organizations = perform_search(organizations, request)
 
-    return render(request, 'organization/settings_organization.html',
+    return render(request, 'organization/organization.html',
                   {'tab': 'organization_settings', 'organizations': organizations,
                    'organizations_charge': organizations_charge,
                    'organizations_carrier': organizations_carrier, 'search': request.POST.get('search', False)})

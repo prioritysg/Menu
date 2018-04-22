@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.files import File
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
@@ -50,6 +51,7 @@ def remove_user(request):
     if request.POST:
         user_id = request.POST.get('id')
         User.objects.filter(id=user_id).delete()
+        request.session['next_tab'] = 'user'
     return redirect(reverse('security_settings'))
 
 
@@ -143,3 +145,6 @@ def user_edit(request):
 
     request.session['next_tab'] = 'user'
     return redirect(reverse('security_settings'))
+
+
+File

@@ -15,21 +15,38 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link active" href="#item" role="tab" data-toggle="tab">Item<span class="sr-only">(current)</span></a>
+                    <a class="nav-link inner_item" href="{% url 'items' %}" role="tab" >Item<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#details" role="tab" data-toggle="tab">Item Details</a>
+                    <a class="nav-link inner_details" href="# details" role="tab" data-toggle="tab">Item Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#charges" role="tab" data-toggle="tab">Charges</a>
+                    <a class="nav-link inner_charges" href="#charges" role="tab" data-toggle="tab">Charges</a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="item">...</div>
+        <div role="tabpanel" class="tab-pane fade in active" id="item">kanjra</div>
         <div role="tabpanel" class="tab-pane fade" id="details">bbb</div>
         <div role="tabpanel" class="tab-pane fade" id="charges">ccc</div>
     </div>
+
+
+
+        <script>
+        $(document).ready(function () {
+            if ('{{ tab }}' == 'item') {
+                $('.inner_item').click();
+            }
+            else if ('{{ tab }}' == 'item_details') {
+                $('.inner_details').click();
+            }
+        });
+    </script>
+
+
+
+
 {% endblock content %}

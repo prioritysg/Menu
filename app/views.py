@@ -31,9 +31,9 @@ def inventory(request):
     return render(request, 'inventory.html', {'tab': 'inventory'})
 
 
-@login_required(login_url='/login/')
-def item(request):
-    return render(request, 'item.html', {'tab': 'item'})
+# @login_required(login_url='/login/')
+# def item(request):
+#     return render(request, 'item.html', {'tab': 'item'})
 
 
 @login_required(login_url='/login/')
@@ -145,6 +145,3 @@ def user_edit(request):
 
     request.session['next_tab'] = 'user'
     return redirect(reverse('security_settings'))
-
-
-File

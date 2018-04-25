@@ -16,14 +16,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from app.forms import UserLoginForm
 from app.organization_views import organization_customer, organization_carrier, organization_carrier_details, \
     organization_client, organization_client_invoices, organization_settings, organization_add, organization_edit, \
     organization_client_charge_add, organization_client_charge_edit, organization_carrier_add, organization_carrier_edit
-from app.views import (index, receiving, item, settings as setting_view, SignUpView, home, shipping, mobile, reports,
+from app.views import (index, receiving, settings as setting_view, SignUpView, home, shipping, mobile, reports,
                        inventory, client_settings, security_settings, remove_user, user_edit, user_add)
 
 urlpatterns = [
@@ -58,7 +58,7 @@ urlpatterns = [
 
                   path('security_settings', security_settings, name='security_settings'),
                   path('client_settings', client_settings, name='client_settings'),
-                  path('item', item, name='item'),
+
                   path('settings', setting_view, name='settings'),
                   path('remove/user/', remove_user, name='remove_user'),
                   path('edit/user/', user_edit, name='edit_user'),
@@ -68,4 +68,5 @@ urlpatterns = [
                        name='login'),
                   path(r'logout/', auth_views.logout, name='logout'),
                   path('signup/', SignUpView.as_view(), name='signup'),
+                  path('item/', include('item.urls')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -20,7 +20,7 @@ class ItemUom(models.Model):
     )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     pack = models.IntegerField()
-    pack_type = models.IntegerField(choices=PACK_TYPE_CHOICES)
+    pack_type = models.ForeignKey('ItemPack', on_delete=models.CASCADE)
     upc = models.CharField(max_length=16)
     sku = models.CharField(max_length=32)
     weight_eng = models.FloatField()
@@ -34,3 +34,10 @@ class ItemUom(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class ItemPack(models.Model):
+    title = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.title

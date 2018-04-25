@@ -89,7 +89,7 @@
                        style="background-color: darkgray; color: black;"{% endif %}
                        class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i
                             class="fa fa-clock-o"></i> <span class="d-none d-md-inline">Inventory</span></a>
-                    <a href="{% url 'item' %}" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"
+                    <a href="{% url 'items' %}" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"
                             {% if tab == 'item' %} style="background-color: darkgray; color: black;"{% endif %}><i
                             class="fa fa-th"></i> <span class="d-none d-md-inline">Items</span></a>
                     <a href="{% url 'reports' %}" {% if tab == 'reports' %}

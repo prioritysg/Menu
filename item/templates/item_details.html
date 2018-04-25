@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-       <style>
-    .nav-link.active {
-        color: #e64758 !important;
-    }
+    <style>
+        .nav-link.active {
+            color: #e64758 !important;
+        }
     </style>
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
@@ -15,10 +15,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link inner_item" href="{% url 'items' %}" role="tab" >Item<span class="sr-only">(current)</span></a>
+                    <a class="nav-link inner_item" href="{% url 'items' %}" role="tab">Item<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link inner_details" href="# details" role="tab" data-toggle="tab">Item Details</a>
+                    <a class="nav-link inner_details" href="#details" role="tab" data-toggle="tab">Item Details</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link inner_charges" href="#charges" role="tab" data-toggle="tab">Charges</a>
@@ -29,18 +29,94 @@
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="item">kanjra</div>
-        <div role="tabpanel" class="tab-pane fade" id="details">bbb</div>
+        <div role="tabpanel" class="tab-pane fade" id="details">
+            <br>
+            <div class="row">
+                <div class="col-lg-2">
+                    <label><b>Client</b></label></div>
+                <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ item.organization }}</label></div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2">
+                    <label><b>Item</b></label></div>
+                <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ item.item_code }}</label></div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-2">
+                    <label><b>Description</b></label></div>
+                <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ item.description }}</label></div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="{% url 'add_uom_item' %}" class="btn btn-default"> <i
+                            class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>#</th>
+                            <th>Pack</th>
+                            <th>Type</th>
+                            <th>UPC</th>
+                            <th>SKU</th>
+                            <th>English WT(LB)</th>
+                            <th>Length (IN)</th>
+                            <th>Width</th>
+                            <th>Height</th>
+
+                            <th>Metric WT(KG)</th>
+                            <th>Length (CH)</th>
+                            <th>Width</th>
+                            <th>Height</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for related_item in related_items %}
+
+                            <tr>
+                                <td>{{ related_item.id }}</td>
+                                <td>{{ related_item.pack }}</td>
+                                <td>{{ related_item.pack_type }}</td>
+                                <td>{{ related_item.upc }}</td>
+                                <td>{{ related_item.sku }}</td>
+                                <td>{{ related_item.weight_eng }}</td>
+                                <td>{{ related_item.length_eng }}</td>
+                                <td>{{ related_item.width_eng }}</td>
+                                <td>{{ related_item.height_eng }}</td>
+
+                                <td>{{ related_item.weight_metric }}</td>
+                                <td>{{ related_item.length_metric }}</td>
+                                <td>{{ related_item.width_metric }}</td>
+                                <td>{{ related_item.height_metric }}</td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
         <div role="tabpanel" class="tab-pane fade" id="charges">ccc</div>
     </div>
 
 
 
-        <script>
+    <script>
         $(document).ready(function () {
-            if ('{{ tab }}' == 'item') {
+            if ('{{ new_tab }}' == 'item') {
                 $('.inner_item').click();
             }
-            else if ('{{ tab }}' == 'item_details') {
+            else if ('{{ new_tab }}' == 'item_details') {
                 $('.inner_details').click();
             }
         });

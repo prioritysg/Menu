@@ -21,7 +21,7 @@
                     <a class="nav-link inner_item" href="#item" role="tab" data-toggle="tab">Item<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link inner_details" href="{% url 'item_details' %}" role="tab">Item Details</a>
+                    <a class="nav-link inner_details" href="#" role="tab">Item Details</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link inner_charges" href="#charges" role="tab" data-toggle="tab">Charges</a>
@@ -44,10 +44,21 @@
                         <div class='col-md-6'>
                             <form class='search-form' method="post">
                                 {% csrf_token %}
-                                <input class='form-control' placeholder='Client' name="search"
+
+                                <label for="sel1">Select Client:</label>
+                                <select class="form-control" id="org">
+                                    {% for client in clients %}
+                                        <option>{{ client.org_id }}</option>
+                                    {% endfor %}
+
+                                </select>
+
+                                <br>
+                                <input class='form-control' placeholder='Itemcode' name="itemcode"
                                        {% if search %}value="{{ search }}"{% endif %}>
-                                <button class='btn btn-link search-btn'>
-                                    <i class='glyphicon glyphicon-search'></i>
+                                <br>
+                                <button type='submit' class='btn btn-success'>
+                                    Search
                                 </button>
                             </form>
                         </div>
@@ -56,7 +67,7 @@
 
 
                 <div class="col-lg-12">
-                    <a href="{% url 'organization_add' %}?org_type=client" class="btn btn-default"> <i
+                    <a href="{% url 'add_item' %}" class="btn btn-default"> <i
                             class="fa fa-user-plus" style="font-size: x-large;color: black;"></i></a>
                 </div>
 
@@ -67,8 +78,10 @@
                         <tr>
                             <th>#</th>
                             <th>Item</th>
+                            <th>Client</th>
                             <th>Description</th>
                             <th>Active</th>
+                            <th>Details</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -77,8 +90,11 @@
                             <tr>
                                 <td>{{ item.id }}</td>
                                 <td>{{ item.item_code }}</td>
+                                <td>{{ item.organization }}</td>
                                 <td>{{ item.description }}</td>
-                                <td><i class="fa fa-check" style="color: green"></i></td>
+                                <td> {% if item.active %}  <i class="fa fa-check" style="color: green"></i>
+                                {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>
+                                <td><a href="{% url 'item_details' item.id %}"> <i class="fa fa-check" style="color: green"></i></a></td>
                             </tr>
 
                         {% endfor %}
@@ -100,10 +116,10 @@
 
     <script>
         $(document).ready(function () {
-            if ('{{ tab }}' == 'item') {
+            if ('{{ new_tab }}' == 'item') {
                 $('.inner_item').click();
             }
-            else if ('{{ tab }}' == 'item_details') {
+            else if ('{{ new_tab }}' == 'item_details') {
                 $('.inner_details').click();
             }
         });

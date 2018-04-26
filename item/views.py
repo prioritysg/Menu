@@ -39,10 +39,10 @@ def item_add(request):
 def item_uom_add(request):
     form = ItemUOMForm(item_id=request.GET.get('item_id', -1))
     if request.POST:
-        form = ItemUOMForm(request.POST,item_id=request.GET.get('item_id', -1))
+        form = ItemUOMForm(request.POST, item_id=request.GET.get('item_id', -1))
         if form.is_valid():
-            form.save()
-            return redirect(reverse('items'))
+            item_uom = form.save()
+            return redirect(reverse('item_details', args=[item_uom.item.id]))
 
     return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
 

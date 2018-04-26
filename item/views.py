@@ -10,15 +10,24 @@ from item.models import Item, ItemUom
 @login_required(login_url='/login/')
 def items(request):
     clients = Organization.objects.filter(category=Organization.CLIENT)
+    selected_org = None
     items = Item.objects.all()
-    return render(request, 'items.html', {'tab': 'item', 'new_tab': 'item', 'clients': clients, 'items': items})
+    if request.POST:
+        if request.POST.get('org') and not request.POST.get('org') == '-1':
+            selected_org = Organization.objects.filter(id=request.POST.get('org')).first()
+            items = items.filter(organization_id=request.POST.get('org'))
+        if request.POST.get('itemcode'):
+            items = items.filter(item_code__icontains=request.POST.get('itemcode').lower())
+
+    return render(request, 'items.html',
+                  {'tab': 'item', 'new_tab': 'item', 'clients': clients, 'items': items, 'selected_org': selected_org})
 
 
 @login_required(login_url='/login/')
 def item_add(request):
-    form = ItemForm()
+    form = ItemForm(org_id=request.GET.get('org_id', -1))
     if request.POST:
-        form = ItemForm(request.POST)
+        form = ItemForm(request.POST, org_id=request.GET.get('org_id', -1))
         if form.is_valid():
             form.save()
             return redirect(reverse('items'))
@@ -28,9 +37,9 @@ def item_add(request):
 
 @login_required(login_url='/login/')
 def item_uom_add(request):
-    form = ItemUOMForm()
+    form = ItemUOMForm(item_id=request.GET.get('item_id', -1))
     if request.POST:
-        form = ItemUOMForm(request.POST)
+        form = ItemUOMForm(request.POST,item_id=request.GET.get('item_id', -1))
         if form.is_valid():
             form.save()
             return redirect(reverse('items'))

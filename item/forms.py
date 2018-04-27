@@ -32,3 +32,7 @@ class ItemUOMForm(forms.ModelForm):
             self.fields['item'].queryset = Item.objects.filter(id=item_id)
         else:
             self.fields['item'].queryset = Item.objects.all()
+
+        if self.instance and self.instance.pk:
+            self.fields['item'].widget.attrs['readonly'] = True
+            self.fields['pack'].widget.attrs['readonly'] = True

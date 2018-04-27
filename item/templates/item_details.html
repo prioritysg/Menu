@@ -62,7 +62,6 @@
                             <th>#</th>
                             <th>Pack</th>
                             <th>Type</th>
-                            <th>UPC</th>
                             <th>SKU</th>
                             <th>English WT(LB)</th>
                             <th>Length (IN)</th>
@@ -73,6 +72,7 @@
                             <th>Length (CH)</th>
                             <th>Width</th>
                             <th>Height</th>
+                            <th>Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -82,7 +82,6 @@
                                 <td>{{ related_item.id }}</td>
                                 <td>{{ related_item.pack }}</td>
                                 <td>{{ related_item.pack_type }}</td>
-                                <td>{{ related_item.upc }}</td>
                                 <td>{{ related_item.sku }}</td>
                                 <td>{{ related_item.weight_eng }}</td>
                                 <td>{{ related_item.length_eng }}</td>
@@ -93,6 +92,7 @@
                                 <td>{{ related_item.length_metric }}</td>
                                 <td>{{ related_item.width_metric }}</td>
                                 <td>{{ related_item.height_metric }}</td>
+                                <td><a href="{% url 'edit_uom_item' related_item.id %}"><i class="fa fa-edit"></i></a></td>
                             </tr>
 
                         {% endfor %}

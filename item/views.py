@@ -48,6 +48,19 @@ def item_uom_add(request):
 
 
 @login_required(login_url='/login/')
+def item_uom_edit(request, item_id):
+    item_uom = ItemUom.objects.filter(id=item_id).first()
+    form = ItemUOMForm(instance=item_uom, item_id=item_uom.item.id)
+    if request.POST:
+        form = ItemUOMForm(request.POST, instance=item_uom, item_id=item_uom.item.id)
+        if form.is_valid():
+            item_uom = form.save()
+            return redirect(reverse('item_details', args=[item_uom.item.id]))
+
+    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
+
+
+@login_required(login_url='/login/')
 def item_details(request, item_id):
     item = Item.objects.filter(id=item_id).first()
     related_items = ItemUom.objects.filter(item=item)

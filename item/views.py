@@ -18,6 +18,9 @@ def items(request):
             items = items.filter(organization_id=request.POST.get('org'))
         if request.POST.get('itemcode'):
             items = items.filter(item_code__icontains=request.POST.get('itemcode').lower())
+    elif request.GET.get('org'):
+        selected_org = Organization.objects.filter(id=request.GET.get('org')).first()
+        items = items.filter(organization_id=request.GET.get('org'))
 
     return render(request, 'items.html',
                   {'tab': 'item', 'new_tab': 'item', 'clients': clients, 'items': items, 'selected_org': selected_org})
@@ -30,7 +33,7 @@ def item_add(request):
         form = ItemForm(request.POST, org_id=request.GET.get('org_id', -1))
         if form.is_valid():
             form.save()
-            return redirect(reverse('items'))
+            return redirect('%s?%s=%s' % (reverse('items'), 'org', request.GET.get('org_id', -1)))
 
     return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
 
@@ -43,6 +46,19 @@ def item_uom_add(request):
         if form.is_valid():
             item_uom = form.save()
             return redirect(reverse('item_details', args=[item_uom.item.id]))
+
+    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
+
+
+@login_required(login_url='/login/')
+def item_edit(request, item_id):
+    item = Item.objects.filter(id=item_id).first()
+    form = ItemForm(instance=item, org_id=item.organization.id)
+    if request.POST:
+        form = ItemForm(request.POST, instance=item, org_id=item.organization.id)
+        if form.is_valid():
+            form.save()
+            return redirect('%s?%s=%s' % (reverse('items'), 'org', item.organization.id))
 
     return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
 

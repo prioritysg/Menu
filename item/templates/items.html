@@ -47,7 +47,7 @@
 
                                 <label for="sel1">Select Client:</label>
                                 <select class="form-control" id="org" name="org">
-                                <option value="-1">-------</option>
+                                    <option value="-1">-------</option>
                                     {% for client in clients %}
                                         <option value="{{ client.id }}"
                                                 {% if selected_org and selected_org.id == client.id %}selected{% endif %}>{{ client.org_id }}</option>
@@ -69,7 +69,8 @@
 
 
                 <div class="col-lg-12">
-                    <a href="{% url 'add_item' %}{% if selected_org %}?org_id={{ selected_org.id }}{% endif %}" class="btn btn-default"> <i
+                    <a href="{% url 'add_item' %}{% if selected_org %}?org_id={{ selected_org.id }}{% endif %}"
+                       class="btn btn-default"> <i
                             class="fa fa-plus" style="font-size: x-large;color: black;"></i></a>
                 </div>
 
@@ -83,6 +84,7 @@
                             <th>Client</th>
                             <th>Description</th>
                             <th>Active</th>
+                            <th>Edit</th>
                             <th>Details</th>
                         </tr>
                         </thead>
@@ -96,6 +98,10 @@
                                 <td>{{ item.description }}</td>
                                 <td> {% if item.active %}  <i class="fa fa-check" style="color: green"></i>
                                 {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>
+
+                                <td><a href="{% url 'edit_item' item.id %}"><i class="fa fa-edit"></i></a>
+                                </td>
+
                                 <td><a href="{% url 'item_details' item.id %}"> <i class="fa fa-check"
                                                                                    style="color: green"></i></a></td>
                             </tr>

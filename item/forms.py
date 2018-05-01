@@ -23,6 +23,15 @@ class ItemForm(forms.ModelForm):
 
 
 class ItemUOMForm(forms.ModelForm):
+    weight_eng = forms.FloatField(default=0.0, required=False)
+    length_eng = forms.FloatField(default=0.0, required=False)
+    width_eng = forms.FloatField(default=0.0, required=False)
+    height_eng = forms.FloatField(default=0.0, required=False)
+    weight_metric = forms.FloatField(default=0.0, required=False)
+    length_metric = forms.FloatField(default=0.0, required=False)
+    width_metric = forms.FloatField(default=0.0, required=False)
+    height_metric = forms.FloatField(default=0.0, required=False)
+
     class Meta:
         model = ItemUom
         fields = '__all__'

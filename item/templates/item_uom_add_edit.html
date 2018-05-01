@@ -1,15 +1,96 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load endswith %}
+{% load startswith %}
 {% block content %}
     {% load bootstrap3 %}
+    <style>
+
+        .center {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            text-align: center;
+        }
+
+    </style>
     <div class="row">
 
         <div class="col-lg-12">
-            <form role="form" method="post" >
+            <form role="form" method="post">
                 {% csrf_token %}
                 <div class="login-form">
                     <h2 class="heading">Item UOM</h2>
-                    {% bootstrap_form form %}
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% for field in form %}
+                                {% if field.name|endswith:'_eng' or field.name|endswith:'_metric' %}
+                                {% else %}
+                                    {% bootstrap_field field form_group_class='col-md-12 form-group label-floating' layout='inline' %}
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 center">
+                            <input type="checkbox" id="english"/>&nbsp;<label>English</label>
+                        </div>
+                        <div class="col-md-4 center">
+                            <input type="checkbox" id="metric"/>&nbsp;<label>Metric</label>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% for field in form %}
+                                {% if field.name|endswith:'_eng' %}
+                                    <div class="col-md-12 form-group label-floating"
+                                         style="display:flex;align-items: center;height: 40px;"><label
+                                            class="control-label">
+                                        {% if field.name|startswith:'weight' %}
+                                            Weight
+                                        {% elif field.name|startswith:'height' %}
+                                            Height
+                                        {% elif field.name|startswith:'length' %}
+                                            Length
+                                        {% elif field.name|startswith:'width' %}
+                                            Width
+                                        {% endif %}
+                                    </label>
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+
+
+                        <div class="col-md-4">
+                            {% for field in form %}
+                                {% if field.name|endswith:'_eng' %}
+                                    {% bootstrap_field field form_group_class='col-md-12 form-group label-floating english' layout='inline' %}
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+
+
+                        <div class="col-md-4">
+                            {% for field in form %}
+                                {% if field.name|endswith:'_metric' %}
+                                    {% bootstrap_field field form_group_class='col-md-12 form-group label-floating metric' layout='inline' %}
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
                     {% buttons %}
                         <button type="submit" class="btn btn-success">Submit <span
                                 class="glyphicon glyphicon-log-in"></span></button>
@@ -19,5 +100,33 @@
         </div>
 
     </div>
+
+    <script>
+
+        $('#metric').click(function () {
+
+            if (this.checked) {
+                $(".english :input").attr("disabled", true);
+                if ($('#english')[0].checked) {
+                    $('#english').click();
+                }
+            } else {
+                $(".english :input").attr("disabled", false);
+            }
+        });
+
+
+        $('#english').click(function () {
+            if (this.checked) {
+                $(".metric :input").attr("disabled", true);
+                if ($('#metric')[0].checked) {
+                    $('#metric').click();
+                }
+            } else {
+                $(".metric :input").attr("disabled", false);
+            }
+        });
+
+    </script>
 
 {% endblock content %}

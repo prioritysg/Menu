@@ -47,7 +47,7 @@ def item_uom_add(request):
             item_uom = form.save()
             return redirect(reverse('item_details', args=[item_uom.item.id]))
 
-    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
+    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form})
 
 
 @login_required(login_url='/login/')
@@ -73,7 +73,7 @@ def item_uom_edit(request, item_id):
             item_uom = form.save()
             return redirect(reverse('item_details', args=[item_uom.item.id]))
 
-    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
+    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form})
 
 
 @login_required(login_url='/login/')

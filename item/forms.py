@@ -15,8 +15,11 @@ class ItemForm(forms.ModelForm):
         if org_id != -1:
             self.fields['organization'].initial = Organization.objects.filter(id=org_id).first()
             self.fields['organization'].queryset = Organization.objects.filter(id=org_id)
+            self.fields['organization'].widget = forms.HiddenInput()
         else:
             self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
+
+        self.fields['organization'].empty_label = None
 
 
 class ItemUOMForm(forms.ModelForm):
@@ -30,9 +33,14 @@ class ItemUOMForm(forms.ModelForm):
         if item_id != -1:
             self.fields['item'].initial = Item.objects.filter(id=item_id).first()
             self.fields['item'].queryset = Item.objects.filter(id=item_id)
+            self.fields['item'].widget = forms.HiddenInput()
         else:
             self.fields['item'].queryset = Item.objects.all()
 
         if self.instance and self.instance.pk:
             self.fields['item'].widget.attrs['readonly'] = True
             self.fields['pack'].widget.attrs['readonly'] = True
+            self.fields['item'].widget = forms.HiddenInput()
+
+        self.fields['item'].empty_label = None
+        self.fields['pack_type'].empty_label = None

@@ -5,7 +5,7 @@
     <div class="row">
 
         <div class="col-lg-12">
-            <form role="form" method="post" {% if add %}action="{% url 'organization_charge_add' %}"{% endif %}>
+            <form role="form" method="post" >
                 {% csrf_token %}
                 <div class="login-form">
                     <h2 class="heading">Item UOM</h2>

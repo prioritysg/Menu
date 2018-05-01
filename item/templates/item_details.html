@@ -62,16 +62,17 @@
                             <th>#</th>
                             <th>Pack</th>
                             <th>Type</th>
+                            <th>UPC</th>
                             <th>SKU</th>
-                            <th>English WT(LB)</th>
-                            <th>Length (IN)</th>
-                            <th>Width</th>
-                            <th>Height</th>
+                            <th>WT(LB)</th>
+                            <th>LEN(IN)</th>
+                            <th>WID</th>
+                            <th>HT</th>
 
-                            <th>Metric WT(KG)</th>
-                            <th>Length (CH)</th>
-                            <th>Width</th>
-                            <th>Height</th>
+                            <th>WT(KG)</th>
+                            <th>LEM(CM)</th>
+                            <th>WID</th>
+                            <th>HT</th>
                             <th>Edit</th>
                         </tr>
                         </thead>
@@ -82,6 +83,7 @@
                                 <td>{{ related_item.id }}</td>
                                 <td>{{ related_item.pack }}</td>
                                 <td>{{ related_item.pack_type }}</td>
+                                <td>{{ related_item.upc }}</td>
                                 <td>{{ related_item.sku }}</td>
                                 <td>{{ related_item.weight_eng }}</td>
                                 <td>{{ related_item.length_eng }}</td>

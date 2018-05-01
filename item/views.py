@@ -18,7 +18,7 @@ def items(request):
             items = items.filter(organization_id=request.POST.get('org'))
         if request.POST.get('itemcode'):
             items = items.filter(item_code__icontains=request.POST.get('itemcode').lower())
-    elif request.GET.get('org'):
+    elif request.GET.get('org', -1) and int(request.GET.get('org', -1)) != -1:
         selected_org = Organization.objects.filter(id=request.GET.get('org')).first()
         items = items.filter(organization_id=request.GET.get('org'))
 

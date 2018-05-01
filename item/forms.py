@@ -23,14 +23,14 @@ class ItemForm(forms.ModelForm):
 
 
 class ItemUOMForm(forms.ModelForm):
-    weight_eng = forms.FloatField(default=0.0, required=False)
-    length_eng = forms.FloatField(default=0.0, required=False)
-    width_eng = forms.FloatField(default=0.0, required=False)
-    height_eng = forms.FloatField(default=0.0, required=False)
-    weight_metric = forms.FloatField(default=0.0, required=False)
-    length_metric = forms.FloatField(default=0.0, required=False)
-    width_metric = forms.FloatField(default=0.0, required=False)
-    height_metric = forms.FloatField(default=0.0, required=False)
+    weight_eng = forms.FloatField(required=False, initial=0.0)
+    length_eng = forms.FloatField(required=False, initial=0.0)
+    width_eng = forms.FloatField(required=False, initial=0.0)
+    height_eng = forms.FloatField(required=False, initial=0.0)
+    weight_metric = forms.FloatField(required=False, initial=0.0)
+    length_metric = forms.FloatField(required=False, initial=0.0)
+    width_metric = forms.FloatField(required=False, initial=0.0)
+    height_metric = forms.FloatField(required=False, initial=0.0)
 
     class Meta:
         model = ItemUom

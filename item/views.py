@@ -11,7 +11,7 @@ from item.models import Item, ItemUom
 def items(request):
     clients = Organization.objects.filter(category=Organization.CLIENT)
     selected_org = None
-    items = Item.objects.all()
+    items = Item.objects.all().order_by('organization__org_id')
     if request.POST:
         if request.POST.get('org') and not request.POST.get('org') == '-1':
             selected_org = Organization.objects.filter(id=request.POST.get('org')).first()
@@ -35,7 +35,8 @@ def item_add(request):
             form.save()
             return redirect('%s?%s=%s' % (reverse('items'), 'org', request.GET.get('org_id', -1)))
 
-    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
+    org = Organization.objects.filter(id=request.GET.get('org_id', -1)).first()
+    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form, 'client': org})
 
 
 @login_required(login_url='/login/')
@@ -47,7 +48,8 @@ def item_uom_add(request):
             item_uom = form.save()
             return redirect(reverse('item_details', args=[item_uom.item.id]))
 
-    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form})
+    item = Item.objects.filter(id=request.GET.get('item_id', -1)).first()
+    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form, 'item': item})
 
 
 @login_required(login_url='/login/')
@@ -60,7 +62,7 @@ def item_edit(request, item_id):
             form.save()
             return redirect('%s?%s=%s' % (reverse('items'), 'org', item.organization.id))
 
-    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form})
+    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form, 'client': item.organization})
 
 
 @login_required(login_url='/login/')
@@ -73,7 +75,8 @@ def item_uom_edit(request, item_id):
             item_uom = form.save()
             return redirect(reverse('item_details', args=[item_uom.item.id]))
 
-    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form})
+    item = Item.objects.filter(id=item_uom.item.id).first()
+    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form, 'item': item})
 
 
 @login_required(login_url='/login/')

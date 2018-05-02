@@ -17,7 +17,8 @@ class ItemForm(forms.ModelForm):
             self.fields['organization'].queryset = Organization.objects.filter(id=org_id)
             self.fields['organization'].widget = forms.HiddenInput()
         else:
-            self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
+            self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT).order_by(
+                'org_id')
 
         self.fields['organization'].empty_label = None
 

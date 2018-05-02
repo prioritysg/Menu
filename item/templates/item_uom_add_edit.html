@@ -14,6 +14,28 @@
         }
 
     </style>
+
+    <h2 class="heading">Item UOM</h2>
+    <div class="row">
+        <div class="col-lg-2">
+            <label><b>Client</b></label></div>
+        <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ item.organization }}</label></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <label><b>Item</b></label></div>
+        <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ item.item_code }}</label></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-2">
+            <label><b>Description</b></label></div>
+        <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ item.description }}</label></div>
+    </div>
+
+
     <div class="row">
 
         <div class="col-lg-12">
@@ -36,7 +58,6 @@
             <form role="form" method="post">
                 {% csrf_token %}
                 <div class="login-form">
-                    <h2 class="heading">Item UOM</h2>
 
                     <div class="row">
                         <div class="col-md-12">

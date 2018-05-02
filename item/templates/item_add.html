@@ -7,7 +7,12 @@
             <form role="form" method="post">
                 {% csrf_token %}
                 <div class="login-form">
-                    <h2 class="heading">Item</h2>
+                    <h3 class="heading">Add Item </h3>
+                    <br>
+                    <br>
+                    {% if client %}
+                        <h5><b>Client:</b> <label>{{ client }}</label></h5>
+                    {% endif %}
                     {% bootstrap_form form %}
                     {% buttons %}
                         <button type="submit" class="btn btn-success">Submit <span

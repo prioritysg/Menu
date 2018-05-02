@@ -164,6 +164,19 @@
             }
         });
 
+        $('#id_pack').focusout(function () {
+            if ($("#id_pack_type option:selected").text() == 'EACH') {
+                $('#id_pack').val('1');
+            }
+        });
+
+
+        $('#id_pack_type').focusout(function () {
+            if ($("#id_pack_type option:selected").text() == 'EACH') {
+                $('#id_pack').val('1');
+            }
+        });
+
     </script>
 
 {% endblock content %}

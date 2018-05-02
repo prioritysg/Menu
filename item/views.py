@@ -46,6 +46,17 @@ def item_uom_add(request):
         form = ItemUOMForm(request.POST, item_id=request.GET.get('item_id', -1))
         if form.is_valid():
             item_uom = form.save()
+            if request.POST.get('english'):
+                item_uom.weight_metric = item_uom.weight_eng * 0.45
+                item_uom.length_metric = item_uom.length_eng * 2.45
+                item_uom.width_metric = item_uom.width_eng * 2.45
+                item_uom.height_metric = item_uom.height_eng * 2.45
+            elif request.POST.get('metric'):
+                item_uom.weight_eng = item_uom.weight_metric / 0.45
+                item_uom.length_eng = item_uom.length_metric / 2.45
+                item_uom.width_eng = item_uom.width_metric / 2.45
+                item_uom.height_eng = item_uom.height_metric / 2.45
+            item_uom.save()
             return redirect(reverse('item_details', args=[item_uom.item.id]))
 
     item = Item.objects.filter(id=request.GET.get('item_id', -1)).first()
@@ -73,6 +84,17 @@ def item_uom_edit(request, item_id):
         form = ItemUOMForm(request.POST, instance=item_uom, item_id=item_uom.item.id)
         if form.is_valid():
             item_uom = form.save()
+            if request.POST.get('english'):
+                item_uom.weight_metric = item_uom.weight_eng * 0.45
+                item_uom.length_metric = item_uom.length_eng * 2.45
+                item_uom.width_metric = item_uom.width_eng * 2.45
+                item_uom.height_metric = item_uom.height_eng * 2.45
+            elif request.POST.get('metric'):
+                item_uom.weight_eng = item_uom.weight_metric / 0.45
+                item_uom.length_eng = item_uom.length_metric / 2.45
+                item_uom.width_eng = item_uom.width_metric / 2.45
+                item_uom.height_eng = item_uom.height_metric / 2.45
+            item_uom.save()
             return redirect(reverse('item_details', args=[item_uom.item.id]))
 
     item = Item.objects.filter(id=item_uom.item.id).first()

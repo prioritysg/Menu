@@ -35,7 +35,8 @@ class ItemUOMForm(forms.ModelForm):
 
     class Meta:
         model = ItemUom
-        fields = '__all__'
+        fields = ('item', 'pack_type', 'pack', 'upc', 'sku', 'weight_eng', 'length_eng', 'width_eng', 'height_eng',
+                  'weight_metric', 'length_metric', 'width_metric', 'height_metric')
 
     def __init__(self, *args, **kwargs):
         item_id = kwargs.pop('item_id')

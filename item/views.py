@@ -11,7 +11,7 @@ from item.models import Item, ItemUom
 def items(request):
     clients = Organization.objects.filter(category=Organization.CLIENT)
     selected_org = None
-    items = Item.objects.all().order_by('organization__org_id')
+    items = Item.objects.all().order_by('organization__org_id', 'item_code')
     if request.POST:
         if request.POST.get('org') and not request.POST.get('org') == '-1':
             selected_org = Organization.objects.filter(id=request.POST.get('org')).first()
@@ -104,6 +104,6 @@ def item_uom_edit(request, item_id):
 @login_required(login_url='/login/')
 def item_details(request, item_id):
     item = Item.objects.filter(id=item_id).first()
-    related_items = ItemUom.objects.filter(item=item)
+    related_items = ItemUom.objects.filter(item=item).order_by('pack_type', 'pack')
     return render(request, 'item_details.html',
                   {'tab': 'item', 'new_tab': 'item_details', 'item': item, 'related_items': related_items})

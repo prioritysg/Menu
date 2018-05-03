@@ -36,7 +36,7 @@ class ItemUom(models.Model):
     height_metric = models.FloatField(default=0.0)
 
     class Meta:
-        unique_together = (("pack", "pack_type"),)
+        unique_together = (("item", "pack", "pack_type"),)
 
     def __str__(self):
         return str(self.id)

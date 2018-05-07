@@ -20,7 +20,7 @@
 
                     {% for field in form %}
                         {% if field.name|startswith:'mt' %}
-                            {% if field.name == 'mt_city' or  field.name == 'mt_state' or field.name == 'mt_zip' %}
+                            {% if field.name == 'mt_city' or  field.name == 'mt_state' or field.name == 'mt_zip' or field.name == 'mt_country' %}
                             {% else %}
                                 {% bootstrap_field field form_group_class='col-md-12 form-group label-floating' layout='inline' %}
                             {% endif %}
@@ -33,17 +33,22 @@
 
                     <div class="form-inline">
                         {% for field in form %}
-                            {% if field.name == 'mt_city' or  field.name == 'mt_state' or field.name == 'mt_zip' %}
-                                {% bootstrap_field field form_group_class='col-sm-4 label-floating' layout='inline' %}
+                            {% if field.name == 'mt_city' or  field.name == 'mt_state' or field.name == 'mt_zip' or field.name == 'mt_country' %}
+                                {% bootstrap_field field form_group_class='col-sm-3 label-floating' layout='inline' %}
                             {% endif %}
                         {% endfor %}
                     </div>
 
                     <br/>
 
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-success" id="copy">Copy MT information</button>
+                    </div>
+                    <br>
+
                     {% for field in form %}
                         {% if field.name|startswith:'st' %}
-                            {% if field.name == 'st_city' or  field.name == 'st_state' or field.name == 'st_zip' %}
+                            {% if field.name == 'st_city' or  field.name == 'st_state' or field.name == 'st_zip' or field.name == 'st_country' %}
                             {% else %}
                                 {% bootstrap_field field form_group_class='col-md-12 form-group label-floating' layout='inline' %}
                             {% endif %}
@@ -56,8 +61,8 @@
 
                     <div class="form-inline">
                         {% for field in form %}
-                            {% if field.name == 'st_city' or  field.name == 'st_state' or field.name == 'st_zip' %}
-                                {% bootstrap_field field form_group_class='col-sm-4 label-floating' layout='inline' %}
+                            {% if field.name == 'st_city' or  field.name == 'st_state' or field.name == 'st_zip' or field.name == 'st_country' %}
+                                {% bootstrap_field field form_group_class='col-sm-3 label-floating' layout='inline' %}
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -71,5 +76,19 @@
         </div>
 
     </div>
+
+    <script>
+        $('#copy').click(function () {
+            $('#id_st_address1').val($('#id_mt_address1')[0].value);
+            $('#id_st_address2').val($('#id_mt_address2')[0].value);
+            $('#id_st_address3').val($('#id_mt_address3')[0].value);
+            $('#id_st_city').val($('#id_mt_city')[0].value);
+            $('#id_st_state').val($('#id_mt_state')[0].value);
+            $('#id_st_zip').val($('#id_mt_zip')[0].value);
+            $('#id_st_country').val($('#id_mt_country')[0].value);
+        });
+
+    </script>
+
 
 {% endblock content %}

@@ -33,7 +33,13 @@ def organization_edit(request, organization_id):
     if request.POST:
         form = OrganizationForm(request.POST, instance=instance)
         if form.is_valid():
-            form.save()
+            org = form.save()
+            if org.category == Organization.CLIENT:
+                return redirect(reverse('organization_client'))
+            if org.category == Organization.CUSTOMER:
+                return redirect(reverse('organization_customer'))
+            if org.category == Organization.CARRIER:
+                return redirect(reverse('organization_carrier'))
             return redirect(reverse('organization_settings'))
     else:
         form = OrganizationForm(instance=instance)
@@ -101,7 +107,7 @@ def organization_client_charge_edit(request, organization_id):
 
 @login_required(login_url='/login/')
 def organization_settings(request):
-    organizations = Organization.objects.all().order_by('-id')
+    organizations = Organization.objects.all().order_by('org_id')
     organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
     organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')
 
@@ -115,7 +121,7 @@ def organization_settings(request):
 
 @login_required(login_url='/login/')
 def organization_client(request):
-    organizations = Organization.objects.all().order_by('-id')
+    organizations = Organization.objects.all().order_by('org_id')
     organizations = perform_search(organizations, request)
 
     return render(request, 'organization/organization_client.html',
@@ -137,7 +143,7 @@ def organization_client_invoices(request):
 
 @login_required(login_url='/login/')
 def organization_customer(request):
-    organizations = Organization.objects.all().order_by('-id')
+    organizations = Organization.objects.all().order_by('org_id')
     organizations = perform_search(organizations, request)
 
     return render(request, 'organization/organization_customer.html',
@@ -146,7 +152,7 @@ def organization_customer(request):
 
 @login_required(login_url='/login/')
 def organization_carrier(request):
-    organizations = Organization.objects.all().order_by('-id')
+    organizations = Organization.objects.all().order_by('org_id')
     organizations = perform_search(organizations, request)
 
     return render(request, 'organization/organization_carrier.html',

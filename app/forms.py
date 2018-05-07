@@ -60,6 +60,12 @@ class OrganizationForm(forms.ModelForm):
         model = Organization
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super(OrganizationForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['category'].widget = forms.HiddenInput()
+
+
 
 class OrganizationsClientChargeCodeForm(forms.ModelForm):
     class Meta:

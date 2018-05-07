@@ -9,7 +9,7 @@
             <form role="form" method="post" {% if add %}action="{% url 'organization_add' %}"{% endif %}>
                 {% csrf_token %}
                 <div class="login-form">
-                    <h2 class="heading">Add Organization</h2>
+                    <h2 class="heading">Organization</h2>
                     {% bootstrap_form_errors form layout='inline' %}
 
                     {% for field in form %}

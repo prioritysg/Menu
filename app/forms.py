@@ -61,10 +61,17 @@ class OrganizationForm(forms.ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
+        cat_name = kwargs.pop('cat_name', None)
         super(OrganizationForm, self).__init__(*args, **kwargs)
-        if self.instance and self.instance.pk:
-            self.fields['category'].widget = forms.HiddenInput()
+        if cat_name == dict(Organization.CATEGORIES_CHOICES).get(Organization.CLIENT).lower():
+            self.fields['category'].initial = Organization.CLIENT
+        if cat_name == dict(Organization.CATEGORIES_CHOICES).get(Organization.CUSTOMER).lower():
+            self.fields['category'].initial = Organization.CUSTOMER
+        if cat_name == dict(Organization.CATEGORIES_CHOICES).get(Organization.CARRIER).lower():
+            self.fields['category'].initial = Organization.CARRIER
 
+        if self.instance and self.instance.pk or cat_name:
+            self.fields['category'].widget = forms.HiddenInput()
 
 
 class OrganizationsClientChargeCodeForm(forms.ModelForm):

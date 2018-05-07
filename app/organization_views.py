@@ -10,7 +10,8 @@ from app.utils import perform_search
 
 @login_required(login_url='/login/')
 def organization_add(request):
-    form = OrganizationForm()
+    cat_name = request.GET.get('org_type', None)
+    form = OrganizationForm(cat_name=cat_name)
     if request.POST:
         form = OrganizationForm(request.POST)
         if form.is_valid():

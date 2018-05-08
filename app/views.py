@@ -76,12 +76,13 @@ def security_settings(request):
         if updated_form.is_valid():
             updated_form.save()
 
-    users = User.objects.all().order_by('id')
+    users = User.objects.all().order_by('username')
     for user in users:
         setattr(user, 'form', UserEditForm(instance=user))
 
     groups = GroupAccess.objects.all().order_by('id')
-    forms_array = [{'id': group.id, 'form': GroupAccessForm(instance=group)} for group in groups]
+    forms_array = [{'id': group.id, 'form': GroupAccessForm(
+        instance=group)} for group in groups]
     user_form = UserEditForm()
     return render(request, 'settings_security.html',
                   {'tab': 'security_settings', 'users': users, 'groups': groups, 'form_array': forms_array,
@@ -112,12 +113,14 @@ class SignUpView(FormView):
 
 
 def user_add(request):
+    form = UserAddForm()
     if request.POST:
         requested_data = request.POST.copy()
         create_user_form = UserAddForm(requested_data)
         if create_user_form.is_valid():
             user = create_user_form.save()
-            group = UserGroup.objects.filter(user_type=requested_data.get('group')).first()
+            group = UserGroup.objects.filter(
+                user_type=requested_data.get('group')).first()
             if user not in group.users.all():
                 group.users.add(user)
         else:
@@ -127,7 +130,6 @@ def user_add(request):
         request.session['next_tab'] = 'user'
         return redirect(reverse('security_settings'))
 
-    form = UserAddForm()
     return render(request, 'settings_security_user_adduser.html', {'tab': 'security_settings', 'form': form})
 
 
@@ -137,7 +139,8 @@ def user_edit(request):
     updated_form = UserEditForm(requested_data, instance=user_to_edit)
     if updated_form.is_valid():
         user = updated_form.save()
-        group = UserGroup.objects.filter(user_type=requested_data.get('group')).first()
+        group = UserGroup.objects.filter(
+            user_type=requested_data.get('group')).first()
         if user not in group.users.all():
             if user.usergroup_set.all():
                 user.usergroup_set.all().first().users.remove(user)

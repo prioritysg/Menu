@@ -5,6 +5,7 @@ from django.urls import reverse
 from app.models import Organization
 from item.forms import ItemForm, ItemUOMForm
 from item.models import Item, ItemUom
+from receive.forms import OrderForm
 from receive.models import Order
 
 
@@ -23,20 +24,18 @@ def orders(request):
     #     selected_org = Organization.objects.filter(id=request.GET.get('org')).first()
     #     items = items.filter(organization_id=request.GET.get('org'))
 
-    return render(request, 'orders.html',{'tab': 'orders', 'new_tab': 'orders', 'orders': orders})
+    return render(request, 'orders.html',{'tab': 'receiving', 'new_tab': 'orders', 'orders': orders})
 
 
 @login_required(login_url='/login/')
-def item_add(request):
-    form = ItemForm(org_id=request.GET.get('org_id', -1))
+def order_add(request):
+    form = OrderForm()
     if request.POST:
-        form = ItemForm(request.POST, org_id=request.GET.get('org_id', -1))
+        form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('%s?%s=%s' % (reverse('items'), 'org', request.GET.get('org_id', -1)))
-
-    org = Organization.objects.filter(id=request.GET.get('org_id', -1)).first()
-    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form, 'client': org})
+            return redirect(reverse('orders'))
+    return render(request, 'order_add_edit.html', {'tab': 'receiving', 'form': form})
 
 
 @login_required(login_url='/login/')

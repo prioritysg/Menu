@@ -1,11 +1,12 @@
 from django.urls import path, include
 
 from item.views import items, item_details, item_add, item_uom_add, item_uom_edit, item_edit
+from receive.views import orders, order_add
 
 urlpatterns = [
 
-    path('list/', items, name='orders'),
-    path('add/', item_add, name='add_order'),
+    path('list/', orders, name='orders'),
+    path('add/', order_add, name='add_order'),
     # path('uom/add/', item_uom_add, name='add_uom_item'),
     # path('uom/<int:item_id>/edit/', item_uom_edit, name='edit_uom_item'),
     # path('/<int:item_id>/edit/', item_edit, name='edit_item'),

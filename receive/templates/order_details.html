@@ -55,7 +55,8 @@
                         <div class="col-lg-5">
                             <label style="font-size: small;"><b>Expected Arrival date</b></label>
                         </div>
-                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.expected_arrival_date }}</label></div>
+                        <div class="col-lg-7">
+                            :&nbsp;&nbsp;&nbsp;<label>{{ selected_order.expected_arrival_date }}</label></div>
                     </div>
                 </div>
             </div>
@@ -75,7 +76,8 @@
                     <div class="row">
                         <div class="col-lg-5">
                             <label style="font-size: small;"><b>Actual Arrival date</b></label></div>
-                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.actual_arrival_date }}</label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.actual_arrival_date }}</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,7 +99,8 @@
 
                         <div class="col-lg-5">
                             <label style="font-size: small;"><b>Receive Start Date</b></label></div>
-                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.receive_start_date }}</label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.receive_start_date }}</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,7 +118,8 @@
                     <div class="row">
                         <div class="col-lg-5">
                             <label style="font-size: small;"><b>Receive Finish Date</b></label></div>
-                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.receive_finish_date }}</label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.receive_finish_date }}</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -123,6 +127,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <a href="
+
                             {% url 'add_order_details' %}{% if selected_order %}?order_id={{ selected_order.id }}{% endif %}"
                        class="btn btn-default"> <i
                             class="fa fa-plus" style="font-size: x-large;color: black;"></i></a>
@@ -161,14 +166,13 @@
                                 <td>{{ order.quantity_requested }}</td>
                                 <td>{{ order.quantity_received }}</td>
                                 <td>{{ order.quantity_received }}</td>
-                                <td>{{ order.quantity_received }}</td>
+                                <td><a href="{% url 'edit_detail' order.id %}"><i class="fa fa-edit"></i></a>
+                                </td>
                                 <td>{{ order.quantity_received }}</td>
                                 {#                                <td>{{ order.receive_finish_date }}</td>#}
                                 {#                                <td> {% if item.active %}  <i class="fa fa-check" style="color: green"></i>#}
                                 {#                                {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>#}
                                 {##}
-                                {#                                <td><a href="{% url 'edit_item' item.id %}"><i class="fa fa-edit"></i></a>#}
-                                {#                                </td>#}
                                 {##}
                                 {#                                <td><a href="{% url 'order_details' order.id %}"> <i class="fa fa-check"#}
                                 {#                                                                                     style="color: green"></i></a></td>#}

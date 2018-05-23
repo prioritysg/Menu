@@ -38,9 +38,9 @@ class Order(models.Model):
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    line_number = models.IntegerField(default=1)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     itemuom = models.ForeignKey(ItemUom, on_delete=models.CASCADE)
+    line_number = models.IntegerField(default=1)
     weight = models.FloatField(default=0.0)
     item_udf1 = models.CharField(max_length=32)
     item_udf2 = models.CharField(max_length=32)

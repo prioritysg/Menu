@@ -35,10 +35,12 @@ class OrderDetailForm(forms.ModelForm):
             self.fields['order'].initial = Order.objects.filter(id=order_id).first()
             self.fields['order'].queryset = Order.objects.filter(id=order_id)
             self.fields['order'].widget = forms.HiddenInput()
+
             items = Item.objects.filter(
                 organization=Order.objects.filter(id=order_id).first().organization)
             self.fields['item'].queryset = items
             self.fields['itemuom'].queryset = ItemUom.objects.filter(item__in=items)
+
         else:
             items = Item.objects.filter(organization__category=Organization.CLIENT)
             self.fields['item'].queryset = items
@@ -48,3 +50,7 @@ class OrderDetailForm(forms.ModelForm):
             self.fields['order'].widget.attrs['readonly'] = True
             self.fields['item'].widget.attrs['readonly'] = True
             self.fields['itemuom'].widget.attrs['readonly'] = True
+
+            self.fields['order'].widget = forms.HiddenInput()
+            self.fields['item'].widget = forms.HiddenInput()
+            self.fields['itemuom'].widget = forms.HiddenInput()

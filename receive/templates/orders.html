@@ -40,31 +40,31 @@
                             <h4>Search</h4>
                         </div>
                     </div>
-{#                    <div class='row'>#}
-{#                        <div class='col-md-6'>#}
-{#                            <form class='search-form' method="post">#}
-{#                                {% csrf_token %}#}
-{##}
-{#                                <label for="sel1">Select Client:</label>#}
-{#                                <select class="form-control" id="org" name="org">#}
-{#                                    <option value="-1">-------</option>#}
-{#                                    {% for client in clients %}#}
-{#                                        <option value="{{ client.id }}"#}
-{#                                                {% if selected_org and selected_org.id == client.id %}selected{% endif %}>{{ client.org_id }}</option>#}
-{#                                    {% endfor %}#}
-{##}
-{#                                </select>#}
-{##}
-{#                                <br>#}
-{#                                <input class='form-control' placeholder='Itemcode' name="itemcode"#}
-{#                                       {% if search %}value="{{ search }}"{% endif %}>#}
-{#                                <br>#}
-{#                                <button type='submit' class='btn btn-success'>#}
-{#                                    Search#}
-{#                                </button>#}
-{#                            </form>#}
-{#                        </div>#}
-{#                    </div>#}
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            <form class='search-form' method="post">
+                                {% csrf_token %}
+
+                                <label for="sel1">Select Client:</label>
+                                <select class="form-control" id="org" name="org">
+                                    <option value="-1">-------</option>
+                                    {% for client in clients %}
+                                        <option value="{{ client.id }}"
+                                                {% if selected_org and selected_org.id == client.id %}selected{% endif %}>{{ client.org_id }}</option>
+                                    {% endfor %}
+
+                                </select>
+
+                                <br>
+                                <input class='form-control' placeholder='Order Number' name="order"
+                                       {% if search %}value="{{ search }}"{% endif %}>
+                                <br>
+                                <button type='submit' class='btn btn-success'>
+                                    Search
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
 

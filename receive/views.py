@@ -14,17 +14,18 @@ def orders(request):
     clients = Organization.objects.filter(category=Organization.CLIENT)
     selected_org = None
     orders = Order.objects.all()
-    # if request.POST:
-    #     if request.POST.get('org') and not request.POST.get('org') == '-1':
-    #         selected_org = Organization.objects.filter(id=request.POST.get('org')).first()
-    #         items = items.filter(organization_id=request.POST.get('org'))
-    #     if request.POST.get('itemcode'):
-    #         items = items.filter(item_code__icontains=request.POST.get('itemcode').lower())
-    # elif request.GET.get('org', -1) and int(request.GET.get('org', -1)) != -1:
-    #     selected_org = Organization.objects.filter(id=request.GET.get('org')).first()
-    #     items = items.filter(organization_id=request.GET.get('org'))
+    search = ''
+    if request.POST:
+        if request.POST.get('org') and not request.POST.get('org') == '-1':
+            selected_org = Organization.objects.filter(id=request.POST.get('org')).first()
+            orders = orders.filter(organization_id=request.POST.get('org'))
+        if request.POST.get('order'):
+            orders = orders.filter(order_no__icontains=request.POST.get('order').lower())
+            search = request.POST.get('order')
 
-    return render(request, 'orders.html',{'tab': 'receiving', 'new_tab': 'orders', 'orders': orders})
+    return render(request, 'orders.html',
+                  {'tab': 'receiving', 'new_tab': 'orders', 'orders': orders, 'clients': clients,
+                   'selected_org': selected_org, 'search': search})
 
 
 @login_required(login_url='/login/')

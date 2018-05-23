@@ -23,7 +23,7 @@ class Order(models.Model):
         (CANCELLED, 'Cancelled'),
     )
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    order_no = models.IntegerField()
+    order_no = models.IntegerField(unique=True)
     ref_no = models.IntegerField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=OPEN)
     expected_arrival_date = models.DateField()

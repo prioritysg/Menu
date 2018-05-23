@@ -99,3 +99,12 @@ def order_details_edit(request, details_id):
             return redirect(reverse('order_details', args=[order_detail.order.id]))
 
     return render(request, 'order_details_add_edit.html', {'tab': 'receiving', 'form': form, 'order': order})
+
+
+def delete_order_detail(request, detail_id):
+    order_detail = OrderDetail.objects.filter(id=detail_id)
+    if order_detail:
+        order = order_detail[0].order
+        order_detail.delete()
+
+    return redirect(reverse('order_details', args=[order.id]))

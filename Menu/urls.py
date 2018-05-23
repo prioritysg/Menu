@@ -69,4 +69,5 @@ urlpatterns = [
                   path(r'logout/', auth_views.logout, name='logout'),
                   path('signup/', SignUpView.as_view(), name='signup'),
                   path('item/', include('item.urls')),
+                  path('order/', include('receive.urls')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

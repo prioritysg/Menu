@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'widget_tweaks',
     'item',
+    'receive',
 ]
 
 MIDDLEWARE = [

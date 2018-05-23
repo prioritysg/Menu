@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% load bootstrap3 %}
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" method="post">
+                {% csrf_token %}
+                <div class="login-form">
+                    <h3 class="heading">Order Details </h3>
+
+                    {% if order %}
+
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label><b>Client</b></label></div>
+                            <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ order.organization }}</label></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label><b>Order#</b></label></div>
+                            <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ order.order_no }}</label></div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label><b>Ref #</b></label></div>
+                            <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ order.ref_no }}</label></div>
+                        </div>
+
+                    {% endif %}
+
+
+                    <br>
+                    <br>
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-success">Submit <span
+                                class="glyphicon glyphicon-log-in"></span></button>
+                    {% endbuttons %}
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock content %}

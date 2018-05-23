@@ -40,9 +40,3 @@ class OrderDetailForm(forms.ModelForm):
             self.fields['order'].widget.attrs['readonly'] = True
             self.fields['item'].widget.attrs['readonly'] = True
             self.fields['itemuom'].widget.attrs['readonly'] = True
-
-
-        #     self.fields['item'].widget = forms.HiddenInput()
-            #
-            # self.fields['item'].empty_label = None
-            # self.fields['pack_type'].empty_label = None

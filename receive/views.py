@@ -91,10 +91,11 @@ def order_details(request, order_id):
 def order_details_add(request):
     order_id = request.GET.get('order_id', -1)
     form = OrderDetailForm(order_id=order_id)
+    order = Order.objects.filter(id=order_id).first()
     if request.POST:
         form = OrderDetailForm(request.POST, order_id=order_id)
         if form.is_valid():
             order_detail = form.save()
             return redirect(reverse('order_details', args=[order_detail.order.id]))
 
-    return render(request, 'order_add_edit.html', {'tab': 'receiving', 'form': form})
+    return render(request, 'order_details_add_edit.html', {'tab': 'receiving', 'form': form, 'order': order})

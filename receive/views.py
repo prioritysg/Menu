@@ -23,6 +23,11 @@ def orders(request):
             orders = orders.filter(order_no__icontains=request.POST.get('order').lower())
             search = request.POST.get('order')
 
+    elif request.GET.get('org', -1) and int(request.GET.get('org', -1)) != -1:
+        selected_org = Organization.objects.filter(id=request.GET.get('org')).first()
+        orders = orders.filter(organization_id=request.GET.get('org'))
+        search = request.POST.get('order', None)
+
     return render(request, 'orders.html',
                   {'tab': 'receiving', 'new_tab': 'orders', 'orders': orders, 'clients': clients,
                    'selected_org': selected_org, 'search': search})
@@ -30,26 +35,29 @@ def orders(request):
 
 @login_required(login_url='/login/')
 def order_add(request):
-    form = OrderForm()
+    org_id = request.GET.get('org_id', -1)
+    selected_org = Organization.objects.filter(id=org_id).first()
+    form = OrderForm(order_id=org_id)
     if request.POST:
-        form = OrderForm(request.POST)
+        form = OrderForm(request.POST, order_id=org_id)
         if form.is_valid():
             form.save()
             return redirect(reverse('orders'))
-    return render(request, 'order_add_edit.html', {'tab': 'receiving', 'form': form})
+    return render(request, 'order_add_edit.html', {'tab': 'receiving', 'form': form, 'selected_org': selected_org})
 
 
-# @login_required(login_url='/login/')
-# def item_edit(request, item_id):
-#     item = Item.objects.filter(id=item_id).first()
-#     form = ItemForm(instance=item, org_id=item.organization.id)
-#     if request.POST:
-#         form = ItemForm(request.POST, instance=item, org_id=item.organization.id)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('%s?%s=%s' % (reverse('items'), 'org', item.organization.id))
-#
-#     return render(request, 'item_add.html', {'tab': 'item_details', 'form': form, 'client': item.organization})
+@login_required(login_url='/login/')
+def order_edit(request, order_id):
+    order = Order.objects.filter(id=order_id).first()
+    form = OrderForm(instance=order, order_id=order.id)
+    if request.POST:
+        form = OrderForm(request.POST, instance=order, order_id=order.id)
+        if form.is_valid():
+            form.save()
+            return redirect('%s?%s=%s' % (reverse('orders'), 'org', order.organization.id))
+
+    return render(request, 'order_add_edit.html',
+                  {'tab': 'receiving', 'form': form, 'selected_org': order.organization})
 
 
 # @login_required(login_url='/login/')

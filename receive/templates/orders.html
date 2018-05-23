@@ -104,13 +104,13 @@
                                 <td>{{ order.status }}</td>
                                 <td>{{ order.status }}</td>
                                 <td>{{ order.receive_finish_date }}</td>
-                                <td>{{ order.receive_finish_date }}</td>
+                                {#                                <td>{{ order.receive_finish_date }}</td>#}
                                 {#                                <td>{{ order.receive_finish_date }}</td>#}
                                 {#                                <td> {% if item.active %}  <i class="fa fa-check" style="color: green"></i>#}
                                 {#                                {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>#}
                                 {##}
-                                {#                                <td><a href="{% url 'edit_item' item.id %}"><i class="fa fa-edit"></i></a>#}
-                                {#                                </td>#}
+                                <td><a href="{% url 'edit_order' order.id %}"><i class="fa fa-edit"></i></a>
+                                </td>
                                 {##}
                                 <td><a href="{% url 'order_details' order.id %}"> <i class="fa fa-check"
                                                                                      style="color: green"></i></a></td>

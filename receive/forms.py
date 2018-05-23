@@ -11,7 +11,15 @@ class OrderForm(forms.ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
+        order_id = kwargs.pop('order_id')
         super(OrderForm, self).__init__(*args, **kwargs)
+
+        if order_id != -1:
+            self.fields['organization'].initial = Organization.objects.filter(id=order_id).first()
+            self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
+            self.fields['organization'].widget = forms.HiddenInput()
+        else:
+            self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
 
 
 class OrderDetailForm(forms.ModelForm):

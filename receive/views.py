@@ -5,8 +5,8 @@ from django.urls import reverse
 from app.models import Organization
 from item.forms import ItemForm, ItemUOMForm
 from item.models import Item, ItemUom
-from receive.forms import OrderForm
-from receive.models import Order
+from receive.forms import OrderForm, OrderDetailForm
+from receive.models import Order, OrderDetail
 
 
 @login_required(login_url='/login/')
@@ -39,71 +39,61 @@ def order_add(request):
     return render(request, 'order_add_edit.html', {'tab': 'receiving', 'form': form})
 
 
+# @login_required(login_url='/login/')
+# def item_edit(request, item_id):
+#     item = Item.objects.filter(id=item_id).first()
+#     form = ItemForm(instance=item, org_id=item.organization.id)
+#     if request.POST:
+#         form = ItemForm(request.POST, instance=item, org_id=item.organization.id)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('%s?%s=%s' % (reverse('items'), 'org', item.organization.id))
+#
+#     return render(request, 'item_add.html', {'tab': 'item_details', 'form': form, 'client': item.organization})
+
+
+# @login_required(login_url='/login/')
+# def item_uom_edit(request, item_id):
+#     item_uom = ItemUom.objects.filter(id=item_id).first()
+#     form = ItemUOMForm(instance=item_uom, item_id=item_uom.item.id)
+#     if request.POST:
+#         form = ItemUOMForm(request.POST, instance=item_uom, item_id=item_uom.item.id)
+#         if form.is_valid():
+#             item_uom = form.save()
+#             if request.POST.get('english'):
+#                 item_uom.weight_metric = item_uom.weight_eng * 0.45
+#                 item_uom.length_metric = item_uom.length_eng * 2.45
+#                 item_uom.width_metric = item_uom.width_eng * 2.45
+#                 item_uom.height_metric = item_uom.height_eng * 2.45
+#             elif request.POST.get('metric'):
+#                 item_uom.weight_eng = item_uom.weight_metric / 0.45
+#                 item_uom.length_eng = item_uom.length_metric / 2.45
+#                 item_uom.width_eng = item_uom.width_metric / 2.45
+#                 item_uom.height_eng = item_uom.height_metric / 2.45
+#             item_uom.save()
+#             return redirect(reverse('item_details', args=[item_uom.item.id]))
+#
+#     item = Item.objects.filter(id=item_uom.item.id).first()
+#     return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form, 'item': item})
+#
+
+
 @login_required(login_url='/login/')
-def item_uom_add(request):
-    form = ItemUOMForm(item_id=request.GET.get('item_id', -1))
+def order_details(request, order_id):
+    related_orders = OrderDetail.objects.filter(order_id=order_id)
+    return render(request, 'order_details.html',
+                  {'tab': 'receiving', 'new_tab': 'order_details',
+                   'selected_order': related_orders[0].order if related_orders else '',
+                   'related_orders': related_orders})
+
+
+@login_required(login_url='/login/')
+def order_details_add(request):
+    form = OrderDetailForm()
     if request.POST:
-        form = ItemUOMForm(request.POST, item_id=request.GET.get('item_id', -1))
+        form = OrderDetailForm(request.POST)
         if form.is_valid():
-            item_uom = form.save()
-            if request.POST.get('english'):
-                item_uom.weight_metric = item_uom.weight_eng * 0.45
-                item_uom.length_metric = item_uom.length_eng * 2.45
-                item_uom.width_metric = item_uom.width_eng * 2.45
-                item_uom.height_metric = item_uom.height_eng * 2.45
-            elif request.POST.get('metric'):
-                item_uom.weight_eng = item_uom.weight_metric / 0.45
-                item_uom.length_eng = item_uom.length_metric / 2.45
-                item_uom.width_eng = item_uom.width_metric / 2.45
-                item_uom.height_eng = item_uom.height_metric / 2.45
-            item_uom.save()
-            return redirect(reverse('item_details', args=[item_uom.item.id]))
+            order_detail = form.save()
+            return redirect(reverse('order_details', args=[order_detail.order.id]))
 
-    item = Item.objects.filter(id=request.GET.get('item_id', -1)).first()
-    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form, 'item': item})
-
-
-@login_required(login_url='/login/')
-def item_edit(request, item_id):
-    item = Item.objects.filter(id=item_id).first()
-    form = ItemForm(instance=item, org_id=item.organization.id)
-    if request.POST:
-        form = ItemForm(request.POST, instance=item, org_id=item.organization.id)
-        if form.is_valid():
-            form.save()
-            return redirect('%s?%s=%s' % (reverse('items'), 'org', item.organization.id))
-
-    return render(request, 'item_add.html', {'tab': 'item_details', 'form': form, 'client': item.organization})
-
-
-@login_required(login_url='/login/')
-def item_uom_edit(request, item_id):
-    item_uom = ItemUom.objects.filter(id=item_id).first()
-    form = ItemUOMForm(instance=item_uom, item_id=item_uom.item.id)
-    if request.POST:
-        form = ItemUOMForm(request.POST, instance=item_uom, item_id=item_uom.item.id)
-        if form.is_valid():
-            item_uom = form.save()
-            if request.POST.get('english'):
-                item_uom.weight_metric = item_uom.weight_eng * 0.45
-                item_uom.length_metric = item_uom.length_eng * 2.45
-                item_uom.width_metric = item_uom.width_eng * 2.45
-                item_uom.height_metric = item_uom.height_eng * 2.45
-            elif request.POST.get('metric'):
-                item_uom.weight_eng = item_uom.weight_metric / 0.45
-                item_uom.length_eng = item_uom.length_metric / 2.45
-                item_uom.width_eng = item_uom.width_metric / 2.45
-                item_uom.height_eng = item_uom.height_metric / 2.45
-            item_uom.save()
-            return redirect(reverse('item_details', args=[item_uom.item.id]))
-
-    item = Item.objects.filter(id=item_uom.item.id).first()
-    return render(request, 'item_uom_add_edit.html', {'tab': 'item_details', 'form': form, 'item': item})
-
-
-@login_required(login_url='/login/')
-def item_details(request, item_id):
-    item = Item.objects.filter(id=item_id).first()
-    related_items = ItemUom.objects.filter(item=item).order_by('pack_type', 'pack')
-    return render(request, 'item_details.html',
-                  {'tab': 'item', 'new_tab': 'item_details', 'item': item, 'related_items': related_items})
+    return render(request, 'order_add_edit.html', {'tab': 'receiving', 'form': form})

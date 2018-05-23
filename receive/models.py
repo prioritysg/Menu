@@ -33,7 +33,7 @@ class Order(models.Model):
     notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.order_no
+        return str(self.order_no)
 
 
 class OrderDetail(models.Model):

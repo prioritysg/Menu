@@ -1,10 +1,206 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .nav-link.active {
+            color: #e64758 !important;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/searchbar.css' %}">
 
-</body>
-</html>
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link inner_order" href="{% url 'orders' %}" role="tab">Orders<span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link order_details" href="#order_details" role="tab" data-toggle="tab">Order
+                        Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link inner_charges" href="#charges" role="tab" data-toggle="tab">Charges</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="order">
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="order_details">
+            <br>
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Client</b></label>
+                        </div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.organization }}</label></div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Expected Arrival date</b></label>
+                        </div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.expected_arrival_date }}</label></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Order #</b></label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.order_no }}</label></div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Actual Arrival date</b></label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.actual_arrival_date }}</label></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row">
+
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Ref #</b></label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.ref_no }}</label></div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-8">
+                    <div class="row">
+
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Receive Start Date</b></label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.receive_start_date }}</label></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Order Status</b></label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.status }}</label></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label style="font-size: small;"><b>Receive Finish Date</b></label></div>
+                        <div class="col-lg-7">:&nbsp;&nbsp;&nbsp;<label>{{ selected_order.receive_finish_date }}</label></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="
+                            {% url 'add_order_details' %}{% if selected_order %}?order_id={{ selected_order.id }}{% endif %}"
+                       class="btn btn-default"> <i
+                            class="fa fa-plus" style="font-size: x-large;color: black;"></i></a>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>#</th>
+                            <th>Line</th>
+                            <th>Item Code</th>
+                            <th>Description</th>
+                            <th>UOM</th>
+                            <th>Weight</th>
+                            <th>Item UDF1</th>
+                            <th>Item UDF2</th>
+                            <th>QTY REQ</th>
+                            <th>QTY REC</th>
+                            <th>Total units</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in related_orders %}
+
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.line_number }}</td>
+                                <td>{{ order.item.item_code }}</td>
+                                <td>{{ order.item.description }}</td>
+                                <td>{{ order.itemuom }}</td>
+                                <td>{{ order.weight }}</td>
+                                <td>{{ order.item_udf1 }}</td>
+                                <td>{{ order.item_udf2 }}</td>
+                                <td>{{ order.quantity_requested }}</td>
+                                <td>{{ order.quantity_received }}</td>
+                                <td>{{ order.quantity_received }}</td>
+                                <td>{{ order.quantity_received }}</td>
+                                <td>{{ order.quantity_received }}</td>
+                                {#                                <td>{{ order.receive_finish_date }}</td>#}
+                                {#                                <td> {% if item.active %}  <i class="fa fa-check" style="color: green"></i>#}
+                                {#                                {% else %} <i class="fa fa-times" style="color: red"></i>{% endif %}</td>#}
+                                {##}
+                                {#                                <td><a href="{% url 'edit_item' item.id %}"><i class="fa fa-edit"></i></a>#}
+                                {#                                </td>#}
+                                {##}
+                                {#                                <td><a href="{% url 'order_details' order.id %}"> <i class="fa fa-check"#}
+                                {#                                                                                     style="color: green"></i></a></td>#}
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="charges">ccc</div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function () {
+            if ('{{ new_tab }}' == 'orders') {
+                $('.inner_order').click();
+            }
+            else if ('{{ new_tab }}' == 'order_details') {
+                $('.order_details').click();
+            }
+        });
+    </script>
+
+
+
+
+{% endblock content %}

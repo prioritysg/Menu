@@ -5,10 +5,27 @@ from item.models import Item, ItemUom
 
 
 class Order(models.Model):
+    OPEN = 'open'
+    WIP = 'wip'
+    HOLD = 'hold'
+    RECEIVE = 'receive'
+    CLOSED = 'closed'
+    INVOICED = 'invoiced'
+    CANCELLED = 'cancelled'
+
+    STATUS_CHOICES = (
+        (OPEN, 'Open'),
+        (WIP, 'Wip'),
+        (HOLD, 'Hold'),
+        (RECEIVE, 'Receive'),
+        (CLOSED, 'Closed'),
+        (INVOICED, 'Invoiced'),
+        (CANCELLED, 'Cancelled'),
+    )
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     order_no = models.IntegerField()
     ref_no = models.IntegerField()
-    status = models.CharField(max_length=10)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=OPEN)
     expected_arrival_date = models.DateField()
     actual_arrival_date = models.DateField(null=True, blank=True)
     receive_start_date = models.DateField(null=True, blank=True)

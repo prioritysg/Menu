@@ -41,8 +41,8 @@ def order_add(request):
     if request.POST:
         form = OrderForm(request.POST, order_id=org_id)
         if form.is_valid():
-            form.save()
-            return redirect(reverse('orders'))
+            order = form.save()
+            return redirect('%s?%s=%s' % (reverse('orders'), 'org', order.organization.id))
     return render(request, 'order_add_edit.html', {'tab': 'receiving', 'form': form, 'selected_org': selected_org})
 
 
@@ -62,10 +62,11 @@ def order_edit(request, order_id):
 
 @login_required(login_url='/login/')
 def order_details(request, order_id):
+    order = Order.objects.filter(id=order_id).first()
     related_orders = OrderDetail.objects.filter(order_id=order_id)
     return render(request, 'order_details.html',
                   {'tab': 'receiving', 'new_tab': 'order_details',
-                   'selected_order': related_orders[0].order if related_orders else '',
+                   'selected_order': order,
                    'related_orders': related_orders})
 
 

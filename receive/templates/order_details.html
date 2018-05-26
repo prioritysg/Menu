@@ -129,6 +129,10 @@
                     <a href="
 
 
+
+
+
+
                             {% url 'add_order_details' %}{% if selected_order %}?order_id={{ selected_order.id }}{% endif %}"
                        class="btn btn-default"> <i
                             class="fa fa-plus" style="font-size: x-large;color: black;"></i></a>
@@ -166,8 +170,16 @@
                                 <td>{{ order.quantity_requested }}</td>
                                 <td>{{ order.quantity_received }}</td>
                                 <td><a href="{% url 'edit_detail' order.id %}"><i class="fa fa-edit"></i></a></td>
-                                <td><a href="{% url 'delete_detail' order.id %}"> <i class="fa fa-times"
-                                                                                   style="color: red;"></i></a></td>
+                                <td>
+                                    {% if order.quantity_received <= 0 %}
+                                        <a href="{% url 'delete_detail' order.id %}"> <i class="fa fa-times"
+                                                                                         style="color: red;"></i>
+                                        </a>
+                                    {% else %}
+                                        <i class="fa fa-times" style="color: grey;">
+                                    {% endif %}
+
+                                </td>
 
                             </tr>
 

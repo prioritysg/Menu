@@ -10,16 +10,27 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = '__all__'
 
+        widgets = {
+            'expected_arrival_date': forms.DateInput(format=('%m/%d/%Y'),
+                                                     attrs={'type': 'date', 'class': 'datepicker',}),
+            'actual_arrival_date': forms.DateInput(format=('%m/%d/%Y'),
+                                                   attrs={'type': 'date', 'class': 'datepicker',}),
+            'receive_start_date': forms.DateInput(format=('%m/%d/%Y'),
+                                                  attrs={'type': 'date', 'class': 'datepicker',}),
+            'receive_finish_date': forms.DateInput(format=('%m/%d/%Y'),
+                                                   attrs={'type': 'date', 'class': 'datepicker',}),
+        }
+
     def __init__(self, *args, **kwargs):
         order_id = kwargs.pop('order_id')
         super(OrderForm, self).__init__(*args, **kwargs)
 
         if order_id != -1:
             self.fields['organization'].initial = Organization.objects.filter(id=order_id).first()
-            self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
             self.fields['organization'].widget = forms.HiddenInput()
-        else:
-            self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
+
+        self.fields['carrier'].queryset = Organization.objects.filter(category=Organization.CARRIER)
+        self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
 
 
 class OrderDetailForm(forms.ModelForm):
@@ -35,7 +46,6 @@ class OrderDetailForm(forms.ModelForm):
             self.fields['order'].initial = Order.objects.filter(id=order_id).first()
             self.fields['order'].queryset = Order.objects.filter(id=order_id)
             self.fields['order'].widget = forms.HiddenInput()
-
             items = Item.objects.filter(
                 organization=Order.objects.filter(id=order_id).first().organization)
             self.fields['item'].queryset = items

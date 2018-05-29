@@ -39,7 +39,7 @@ class ItemUom(models.Model):
         unique_together = (("item", "pack", "pack_type"),)
 
     def __str__(self):
-        return str(self.id)
+        return str('%s - %s' % (str(self.item.item_code), str(self.pack_type)))
 
 
 class ItemPack(models.Model):

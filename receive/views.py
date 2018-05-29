@@ -109,3 +109,9 @@ def delete_order_detail(request, detail_id):
         order_detail.delete()
 
     return redirect(reverse('order_details', args=[order.id]))
+
+
+def load_items_uom(request):
+    item = request.GET.get('item')
+    items = ItemUom.objects.filter(item_id=item)
+    return render(request, 'item_uom_dropdown.html', {'item_uoms': items})

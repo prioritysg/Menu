@@ -48,6 +48,7 @@
 
 
     <script>
+
         $("#id_item").change(function () {
             var url = "{% url 'load_item_uom' %}"  // get the url of the `load_cities` view
             var itemId = $(this).val();  // get the selected country ID from the HTML input

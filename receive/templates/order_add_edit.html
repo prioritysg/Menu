@@ -46,4 +46,62 @@
         </div>
 
     </div>
+    <script>
+        $("#id_actual_arrival_date").change(function () {
+            var actual_date = $(this).val();
+            var expected_date = $('#id_expected_arrival_date').val();
+            if (actual_date && expected_date) {
+
+                if (new Date(actual_date) < new Date(expected_date)) {
+                    $('#id_expected_arrival_date').val("");
+                    $('#id_actual_arrival_date').val("");
+                    alert("Expected date can't be less than Actual Date");
+                }
+            }
+
+        });
+
+        $("#id_expected_arrival_date").change(function () {
+            var expected_date = $(this).val();
+            var actual_date = $('#id_actual_arrival_date').val();
+
+            if (actual_date && expected_date) {
+                if (new Date(actual_date) < new Date(expected_date)) {
+                    $('#id_expected_arrival_date').val("");
+                    $('#id_actual_arrival_date').val("");
+                    alert("Expected date can't be less than Actual Date");
+                }
+            }
+
+        });
+
+
+        $("#id_receive_start_date").change(function () {
+            var start_date = $(this).val();
+            var finish_date = $('#id_receive_finish_date').val();
+            if (start_date && finish_date) {
+                if (new Date(finish_date) < new Date(start_date)) {
+                    $('#id_receive_finish_date').val("");
+                    $('#id_receive_start_date').val("");
+                    alert("Finish date can't be less than Start Date");
+                }
+            }
+
+        });
+
+        $("#id_receive_finish_date").change(function () {
+            var finish_date = $(this).val();
+            var start_date = $('#id_receive_start_date').val();
+            if (start_date && finish_date) {
+                if (new Date(finish_date) < new Date(start_date)) {
+                    $('#id_receive_finish_date').val("");
+                    $('#id_receive_start_date').val("");
+                    alert("Finish date can't be less than Start Date");
+                }
+            }
+
+        });
+
+
+    </script>
 {% endblock content %}

@@ -33,6 +33,7 @@ class Order(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     order_no = models.IntegerField(unique=True)
     ref_no = models.CharField(max_length=50, default='')
+    ponumber = models.CharField(max_length=32, default='')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=OPEN)
     expected_arrival_date = models.DateField()
     actual_arrival_date = models.DateField(null=True, blank=True)
@@ -41,10 +42,9 @@ class Order(models.Model):
     container = models.CharField(max_length=50, default='')
     carrier = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='order_carrier', null=True,
                                 blank=True)
-    notes = models.TextField(null=True, blank=True)
-    ponumber = models.CharField(max_length=32, default='')
     organization_customer = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True,
                                               related_name='order_customer_org')
+    notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return str(self.order_no)

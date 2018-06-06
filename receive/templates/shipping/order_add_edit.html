@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% load bootstrap3 %}
+    <div class="row">
+
+
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="col-lg-12">
+            <form role="form" method="post">
+                {% csrf_token %}
+                <div class="login-form">
+                    <h3 class="heading">Add Order </h3>
+
+
+                    {% if selected_org %}
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label><b>Client</b></label></div>
+                            <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ selected_org }}</label></div>
+                        </div>
+                    {% endif %}
+                    <br>
+                    <br>
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-success">Submit <span
+                                class="glyphicon glyphicon-log-in"></span></button>
+                    {% endbuttons %}
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <script>
+        $("#id_actual_arrival_date").change(function () {
+            var actual_date = $(this).val();
+            var expected_date = $('#id_expected_arrival_date').val();
+            if (actual_date && expected_date) {
+
+                if (new Date(actual_date) < new Date(expected_date)) {
+                    $('#id_expected_arrival_date').val("");
+                    $('#id_actual_arrival_date').val("");
+                    alert("Expected date can't be less than Actual Date");
+                }
+            }
+
+        });
+
+        $("#id_expected_arrival_date").change(function () {
+            var expected_date = $(this).val();
+            var actual_date = $('#id_actual_arrival_date').val();
+
+            if (actual_date && expected_date) {
+                if (new Date(actual_date) < new Date(expected_date)) {
+                    $('#id_expected_arrival_date').val("");
+                    $('#id_actual_arrival_date').val("");
+                    alert("Expected date can't be less than Actual Date");
+                }
+            }
+
+        });
+
+
+        $("#id_receive_start_date").change(function () {
+            var start_date = $(this).val();
+            var finish_date = $('#id_receive_finish_date').val();
+            if (start_date && finish_date) {
+                if (new Date(finish_date) < new Date(start_date)) {
+                    $('#id_receive_finish_date').val("");
+                    $('#id_receive_start_date').val("");
+                    alert("Finish date can't be less than Start Date");
+                }
+            }
+
+        });
+
+        $("#id_receive_finish_date").change(function () {
+            var finish_date = $(this).val();
+            var start_date = $('#id_receive_start_date').val();
+            if (start_date && finish_date) {
+                if (new Date(finish_date) < new Date(start_date)) {
+                    $('#id_receive_finish_date').val("");
+                    $('#id_receive_start_date').val("");
+                    alert("Finish date can't be less than Start Date");
+                }
+            }
+
+        });
+
+
+    </script>
+{% endblock content %}

@@ -22,6 +22,14 @@ class Order(models.Model):
         (INVOICED, 'Invoiced'),
         (CANCELLED, 'Cancelled'),
     )
+    ORDER = 'ORDER'
+    SHIPPING = 'SHIPPING'
+    ORDER_TYPE = (
+        (ORDER, 'Order'),
+        (SHIPPING, 'Shipping'),
+    )
+
+    order_type = models.CharField(max_length=20, choices=ORDER_TYPE, default=ORDER)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     order_no = models.IntegerField(unique=True)
     ref_no = models.CharField(max_length=50, default='')
@@ -34,6 +42,9 @@ class Order(models.Model):
     carrier = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='order_carrier', null=True,
                                 blank=True)
     notes = models.TextField(null=True, blank=True)
+    ponumber = models.CharField(max_length=32, default='')
+    organization_customer = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True,
+                                              related_name='order_customer_org')
 
     def __str__(self):
         return str(self.order_no)

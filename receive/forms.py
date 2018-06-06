@@ -8,7 +8,7 @@ from receive.models import OrderDetail, Order
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = '__all__'
+        exclude = ('ponumber', 'organization_customer', 'order_type',)
 
     def __init__(self, *args, **kwargs):
         order_id = kwargs.pop('order_id')
@@ -77,3 +77,37 @@ class OrderDetailForm(forms.ModelForm):
             items = Item.objects.filter(organization=self.instance.order.organization)
             self.fields['item'].queryset = items
             self.fields['itemuom'].queryset = ItemUom.objects.filter(item__in=items)
+
+
+class ShippingOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        exclude = ('receive_start_date', 'receive_finish_date', 'order_type',)
+
+    def __init__(self, *args, **kwargs):
+        order_id = kwargs.pop('order_id')
+        super(ShippingOrderForm, self).__init__(*args, **kwargs)
+
+        self.fields['expected_arrival_date'].label = "Expected Arrival Date"
+        self.fields['actual_arrival_date'].label = "Actual Arrival Date"
+
+        if order_id != -1:
+            self.fields['organization'].initial = Organization.objects.filter(id=order_id).first()
+            self.fields['organization'].widget = forms.HiddenInput()
+
+        if self.instance and self.instance.pk:
+            self.fields['expected_arrival_date'].initial = self.instance.expected_arrival_date.strftime('%Y-%m-%d')
+            self.fields['actual_arrival_date'].initial = self.instance.actual_arrival_date.strftime('%Y-%m-%d')
+
+            self.fields['expected_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
+            self.fields['actual_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
+
+        else:
+            self.fields['expected_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',},
+                                                                                  format=('%m/%d/%Y'))
+            self.fields['actual_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',},
+                                                                                format=('%m/%d/%Y'))
+
+        self.fields['carrier'].queryset = Organization.objects.filter(category=Organization.CARRIER)
+        self.fields['organization_customer'].queryset = Organization.objects.filter(category=Organization.CUSTOMER)
+        self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)

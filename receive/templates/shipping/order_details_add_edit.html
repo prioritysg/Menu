@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% load bootstrap3 %}
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" method="post">
+                {% csrf_token %}
+                <div class="login-form">
+                    <h3 class="heading">Order Details </h3>
+
+                    {% if order %}
+
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label><b>Client</b></label></div>
+                            <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ order.organization }}</label></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label><b>Order#</b></label></div>
+                            <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ order.order_no }}</label></div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label><b>Ref #</b></label></div>
+                            <div class="col-lg-10">:&nbsp;&nbsp;&nbsp;<label>{{ order.ref_no }}</label></div>
+                        </div>
+
+                    {% endif %}
+
+
+                    <br>
+                    <br>
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-success">Submit <span
+                                class="glyphicon glyphicon-log-in"></span></button>
+                    {% endbuttons %}
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        $("#id_item").change(function () {
+            var url = "{% url 'load_item_uom' %}"  // get the url of the `load_cities` view
+            var itemId = $(this).val();  // get the selected country ID from the HTML input
+
+            $.ajax({                       // initialize an AJAX request
+                url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+                data: {
+                    'item': itemId       // add the country id to the GET parameters
+                },
+                success: function (data) {   // `data` is the return of the `load_cities` view function
+                    $("#id_itemuom").html(data);  // replace the contents of the city input with the data that came from the server
+                }
+            });
+
+        });
+    </script>
+{% endblock content %}

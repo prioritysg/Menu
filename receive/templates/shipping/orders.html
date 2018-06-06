@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .nav-link.active {
+            color: #e64758 !important;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/searchbar.css' %}">
+
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded nav-tabs" role="tablist">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link inner_order" href="#order" role="tab" data-toggle="tab">Orders<span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link inner_details" href="#" role="tab">Order Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link inner_charges" href="#charges" role="tab" data-toggle="tab">Charges</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="order">
+            <div class="row">
+
+                <div class='container'>
+                    <div class='row'>
+                        <div class='col-md-12'>
+                            <h4>Search</h4>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            <form class='search-form' method="post">
+                                {% csrf_token %}
+
+                                <label for="sel1">Select Client:</label>
+                                <select class="form-control" id="org" name="org">
+                                    <option value="-1">-------</option>
+                                    {% for client in clients %}
+                                        <option value="{{ client.id }}"
+                                                {% if selected_org and selected_org.id == client.id %}selected{% endif %}>{{ client.org_id }}</option>
+                                    {% endfor %}
+
+                                </select>
+
+                                <br>
+                                <input class='form-control' placeholder='Order Number' name="order"
+                                       {% if search %}value="{{ search }}"{% endif %}>
+                                <br>
+                                <button type='submit' class='btn btn-success'>
+                                    Search
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12">
+                    <a href="{% url 'shipping_add_order' %}{% if selected_org %}?org_id={{ selected_org.id }}{% endif %}"
+                       class="btn btn-default"> <i
+                            class="fa fa-plus" style="font-size: x-large;color: black;"></i></a>
+                </div>
+
+
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>#</th>
+                            <th>Client</th>
+                            <th>Order</th>
+                            <th>Reference</th>
+                            <th>Status</th>
+                            <th>Exp Date</th>
+                            <th>Container</th>
+                            <th>Carrier</th>
+                            <th>Edit</th>
+                            <th>Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.organization }}</td>
+                                <td>{{ order.order_no }}</td>
+                                <td>{{ order.ref_no }}</td>
+                                <td>{{ order.get_status_display }}</td>
+                                <td>{{ order.receive_finish_date }}</td>
+                                <td>{{ order.container }}</td>
+                                <td>{{ order.carrier }}</td>
+                                <td><a href="{% url 'shipping_edit_order' order.id %}"><i class="fa fa-edit"></i></a></td>
+                                <td><a href="{% url 'shipping_order_details' order.id %}"> <i class="fa fa-check"
+                                                                                     style="color: green"></i></a></td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="details">bbb</div>
+        <div role="tabpanel" class="tab-pane fade" id="charges">ccc</div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function () {
+            if ('{{ new_tab }}' == 'orders') {
+                $('.inner_order').click();
+            }
+            else if ('{{ new_tab }}' == 'item_details') {
+                $('.inner_details').click();
+            }
+        });
+    </script>
+
+
+
+
+{% endblock content %}

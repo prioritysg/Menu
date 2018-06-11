@@ -24,10 +24,14 @@ class OrderForm(forms.ModelForm):
             self.fields['organization'].widget = forms.HiddenInput()
 
         if self.instance and self.instance.pk:
-            self.fields['expected_arrival_date'].initial = self.instance.expected_arrival_date.strftime('%Y-%m-%d')
-            self.fields['actual_arrival_date'].initial = self.instance.actual_arrival_date.strftime('%Y-%m-%d')
-            self.fields['receive_start_date'].initial = self.instance.receive_start_date.strftime('%Y-%m-%d')
-            self.fields['receive_finish_date'].initial = self.instance.receive_finish_date.strftime('%Y-%m-%d')
+            if self.instance.expected_arrival_date:
+                self.fields['expected_arrival_date'].initial = self.instance.expected_arrival_date.strftime('%Y-%m-%d')
+            if self.instance.actual_arrival_date:
+                self.fields['actual_arrival_date'].initial = self.instance.actual_arrival_date.strftime('%Y-%m-%d')
+            if self.instance.receive_start_date:
+                self.fields['receive_start_date'].initial = self.instance.receive_start_date.strftime('%Y-%m-%d')
+            if self.instance.receive_finish_date:
+                self.fields['receive_finish_date'].initial = self.instance.receive_finish_date.strftime('%Y-%m-%d')
 
             self.fields['expected_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
             self.fields['actual_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
@@ -57,6 +61,9 @@ class OrderDetailForm(forms.ModelForm):
         order_id = kwargs.pop('order_id')
         super(OrderDetailForm, self).__init__(*args, **kwargs)
 
+        self.fields['quantity_requested'].label = "Quantity Requested"
+        self.fields['quantity_received'].label = "Quantity Received"
+
         if order_id != -1:
             self.fields['order'].initial = Order.objects.filter(id=order_id).first()
             self.fields['order'].queryset = Order.objects.filter(id=order_id)
@@ -82,22 +89,25 @@ class OrderDetailForm(forms.ModelForm):
 class ShippingOrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        exclude = ('receive_start_date', 'receive_finish_date', 'order_type',)
+        exclude = ('receive_start_date', 'receive_finish_date', 'order_type', 'container')
 
     def __init__(self, *args, **kwargs):
         order_id = kwargs.pop('order_id')
         super(ShippingOrderForm, self).__init__(*args, **kwargs)
 
-        self.fields['expected_arrival_date'].label = "Expected Arrival Date"
-        self.fields['actual_arrival_date'].label = "Actual Arrival Date"
+        self.fields['expected_arrival_date'].label = "Requested Ship Date"
+        self.fields['actual_arrival_date'].label = "Actual Ship Date"
+        self.fields['organization_customer'].label = "Customer"
 
         if order_id != -1:
             self.fields['organization'].initial = Organization.objects.filter(id=order_id).first()
             self.fields['organization'].widget = forms.HiddenInput()
 
         if self.instance and self.instance.pk:
-            self.fields['expected_arrival_date'].initial = self.instance.expected_arrival_date.strftime('%Y-%m-%d')
-            self.fields['actual_arrival_date'].initial = self.instance.actual_arrival_date.strftime('%Y-%m-%d')
+            if self.instance.expected_arrival_date:
+                self.fields['expected_arrival_date'].initial = self.instance.expected_arrival_date.strftime('%Y-%m-%d')
+            if self.instance.actual_arrival_date:
+                self.fields['actual_arrival_date'].initial = self.instance.actual_arrival_date.strftime('%Y-%m-%d')
 
             self.fields['expected_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
             self.fields['actual_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})

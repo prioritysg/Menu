@@ -84,9 +84,10 @@
                             <th>Client</th>
                             <th>Order</th>
                             <th>Reference</th>
+                            <th>PO#</th>
                             <th>Status</th>
                             <th>Exp Date</th>
-                            <th>Container</th>
+                            <th>Customer</th>
                             <th>Carrier</th>
                             <th>Edit</th>
                             <th>Details</th>
@@ -100,9 +101,10 @@
                                 <td>{{ order.organization }}</td>
                                 <td>{{ order.order_no }}</td>
                                 <td>{{ order.ref_no }}</td>
+                                <td>{{ order.ponumber }}</td>
                                 <td>{{ order.get_status_display }}</td>
-                                <td>{{ order.receive_finish_date }}</td>
-                                <td>{{ order.container }}</td>
+                                <td>{{ order.expected_arrival_date }}</td>
+                                <td>{{ order.organization_customer }}</td>
                                 <td>{{ order.carrier }}</td>
                                 <td><a href="{% url 'shipping_edit_order' order.id %}"><i class="fa fa-edit"></i></a></td>
                                 <td><a href="{% url 'shipping_order_details' order.id %}"> <i class="fa fa-check"

@@ -39,7 +39,7 @@ class Order(models.Model):
     actual_arrival_date = models.DateField(null=True, blank=True)
     receive_start_date = models.DateField(null=True, blank=True)
     receive_finish_date = models.DateField(null=True, blank=True)
-    container = models.CharField(max_length=50, default='')
+    container = models.CharField(max_length=50, default='', blank=True)
     carrier = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='order_carrier', null=True,
                                 blank=True)
     organization_customer = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True,

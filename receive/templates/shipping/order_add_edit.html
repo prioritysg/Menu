@@ -36,7 +36,26 @@
                     {% endif %}
                     <br>
                     <br>
-                    {% bootstrap_form form %}
+
+
+                    <div class="col-md-12">
+                        {% for field in form %}
+                            {% if field.name != 'notes' %}
+                                {% bootstrap_field field form_group_class='col-md-12 form-group label-floating english' %}
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-12" id="customer_info"></div>
+                    <div class="col-md-12">
+                        {% for field in form %}
+                            {% if field.name == 'notes' %}
+                                {% bootstrap_field field form_group_class='col-md-12 form-group label-floating english' %}
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
                     {% buttons %}
                         <button type="submit" class="btn btn-success">Submit <span
                                 class="glyphicon glyphicon-log-in"></span></button>
@@ -103,5 +122,25 @@
         });
 
 
+    </script>
+
+
+    <script>
+
+        $("#id_organization_customer").change(function () {
+            var url = "{% url 'shipping_load_customer' %}";  // get the url of the `load_cities` view
+            var itemId = $(this).val();  // get the selected country ID from the HTML input
+
+            $.ajax({                       // initialize an AJAX request
+                url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+                data: {
+                    'item': itemId       // add the country id to the GET parameters
+                },
+                success: function (data) {   // `data` is the return of the `load_cities` view function
+                    $("#customer_info").html(data);  // replace the contents of the city input with the data that came from the server
+                }
+            });
+
+        });
     </script>
 {% endblock content %}

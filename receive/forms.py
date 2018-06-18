@@ -32,11 +32,14 @@ class OrderForm(forms.ModelForm):
                 self.fields['receive_start_date'].initial = self.instance.receive_start_date.strftime('%Y-%m-%d')
             if self.instance.receive_finish_date:
                 self.fields['receive_finish_date'].initial = self.instance.receive_finish_date.strftime('%Y-%m-%d')
+            if self.instance.cancel_date:
+                self.fields['cancel_date'].initial = self.instance.cancel_date.strftime('%Y-%m-%d')
 
             self.fields['expected_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
             self.fields['actual_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
             self.fields['receive_start_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
             self.fields['receive_finish_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
+            self.fields['cancel_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
 
         else:
             self.fields['expected_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',},
@@ -47,6 +50,8 @@ class OrderForm(forms.ModelForm):
                                                                                format=('%m/%d/%Y'))
             self.fields['receive_finish_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',},
                                                                                 format=('%m/%d/%Y'))
+            self.fields['cancel_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',},
+                                                                        format=('%m/%d/%Y'))
 
         self.fields['carrier'].queryset = Organization.objects.filter(category=Organization.CARRIER)
         self.fields['organization'].queryset = Organization.objects.filter(category=Organization.CLIENT)
@@ -62,7 +67,7 @@ class OrderDetailForm(forms.ModelForm):
         super(OrderDetailForm, self).__init__(*args, **kwargs)
 
         self.fields['quantity_requested'].label = "Quantity Requested"
-        self.fields['quantity_received'].label = "Quantity Received"
+        self.fields['quantity_received'].label = "Quantity Shipped"
 
         if order_id != -1:
             self.fields['order'].initial = Order.objects.filter(id=order_id).first()
@@ -108,8 +113,11 @@ class ShippingOrderForm(forms.ModelForm):
                 self.fields['expected_arrival_date'].initial = self.instance.expected_arrival_date.strftime('%Y-%m-%d')
             if self.instance.actual_arrival_date:
                 self.fields['actual_arrival_date'].initial = self.instance.actual_arrival_date.strftime('%Y-%m-%d')
+            if self.instance.cancel_date:
+                self.fields['cancel_date'].initial = self.instance.cancel_date.strftime('%Y-%m-%d')
 
             self.fields['expected_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
+            self.fields['cancel_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
             self.fields['actual_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',})
 
         else:
@@ -117,6 +125,8 @@ class ShippingOrderForm(forms.ModelForm):
                                                                                   format=('%m/%d/%Y'))
             self.fields['actual_arrival_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',},
                                                                                 format=('%m/%d/%Y'))
+            self.fields['cancel_date'].widget = forms.widgets.DateInput(attrs={'type': 'date',},
+                                                                        format=('%m/%d/%Y'))
 
         self.fields['carrier'].queryset = Organization.objects.filter(category=Organization.CARRIER)
         self.fields['organization_customer'].queryset = Organization.objects.filter(category=Organization.CUSTOMER)

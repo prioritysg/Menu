@@ -23,4 +23,6 @@ urlpatterns = [
     path('shipping/<int:order_id>/edit/', shipping_views.order_edit, name='shipping_edit_order'),
     path('shipping/<int:order_id>/details/', shipping_views.order_details, name='shipping_order_details'),
 
+    path('shipping/load/customer/info/', shipping_views.load_customer_info, name='shipping_load_customer'),
+
 ]

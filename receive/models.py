@@ -37,6 +37,7 @@ class Order(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=OPEN)
     expected_arrival_date = models.DateField()
     actual_arrival_date = models.DateField(null=True, blank=True)
+    cancel_date = models.DateField(null=True, blank=True)
     receive_start_date = models.DateField(null=True, blank=True)
     receive_finish_date = models.DateField(null=True, blank=True)
     container = models.CharField(max_length=50, default='', blank=True)

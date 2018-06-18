@@ -105,6 +105,7 @@ def order_details_edit(request, details_id):
     return render(request, 'shipping/order_details_add_edit.html', {'tab': 'shipping', 'form': form, 'order': order})
 
 
+@login_required(login_url='/login/')
 def delete_order_detail(request, detail_id):
     order_detail = OrderDetail.objects.filter(id=detail_id)
     if order_detail:
@@ -114,7 +115,15 @@ def delete_order_detail(request, detail_id):
     return redirect(reverse('shipping_order_details', args=[order.id]))
 
 
+@login_required(login_url='/login/')
 def load_items_uom(request):
     item = request.GET.get('item')
     items = ItemUom.objects.filter(item_id=item)
     return render(request, 'shipping/item_uom_dropdown.html', {'item_uoms': items})
+
+
+@login_required(login_url='/login/')
+def load_customer_info(request):
+    item = request.GET.get('item')
+    customer = Organization.objects.filter(id=item).first()
+    return render(request, 'shipping/customer_info.html', {'customer': customer})

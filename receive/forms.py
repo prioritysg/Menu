@@ -8,7 +8,7 @@ from receive.models import OrderDetail, Order
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        exclude = ('ponumber', 'organization_customer', 'order_type',)
+        exclude = ('ponumber', 'organization_customer', 'order_type', 'cancel_date')
 
     def __init__(self, *args, **kwargs):
         order_id = kwargs.pop('order_id')

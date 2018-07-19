@@ -1,5 +1,4 @@
-from app.models import UserGroup
-
+from app.models import UserGroup, GroupAccess
 
 def add_user_regular_group(user):
     group, _ = UserGroup.objects.get_or_create(user_type=UserGroup.REGULAR)

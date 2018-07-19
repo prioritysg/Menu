@@ -1,13 +1,19 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required#, re_direct
+
+from app.decorators import permission_required_for_item
+from app.models import UserGroup,GroupAccess
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from app.models import permission
 
 from app.models import Organization
 from item.forms import ItemForm, ItemUOMForm
 from item.models import Item, ItemUom
 
 
+
 @login_required(login_url='/login/')
+@permission_required_for_item('items', raise_exception=True)
 def items(request):
     clients = Organization.objects.filter(category=Organization.CLIENT)
     selected_org = None
@@ -27,6 +33,7 @@ def items(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('items', raise_exception=True)
 def item_add(request):
     form = ItemForm(org_id=request.GET.get('org_id', -1))
     if request.POST:
@@ -40,6 +47,7 @@ def item_add(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('items', raise_exception=True)
 def item_uom_add(request):
     form = ItemUOMForm(item_id=request.GET.get('item_id', -1))
     if request.POST:
@@ -64,6 +72,7 @@ def item_uom_add(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('items', raise_exception=True)
 def item_edit(request, item_id):
     item = Item.objects.filter(id=item_id).first()
     form = ItemForm(instance=item, org_id=item.organization.id)
@@ -77,6 +86,7 @@ def item_edit(request, item_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('items', raise_exception=True)
 def item_uom_edit(request, item_id):
     item_uom = ItemUom.objects.filter(id=item_id).first()
     form = ItemUOMForm(instance=item_uom, item_id=item_uom.item.id)
@@ -102,6 +112,7 @@ def item_uom_edit(request, item_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('items', raise_exception=True)
 def item_details(request, item_id):
     item = Item.objects.filter(id=item_id).first()
     related_items = ItemUom.objects.filter(item=item).order_by('pack_type', 'pack')

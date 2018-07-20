@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from app.decorators import permission_required_for_item
 
 from app.forms import (OrganizationForm, OrganizationsClientChargeCodeForm, OrganizationsCarrierDetailForm)
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from app.utils import perform_search
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_add(request):
     cat_name = request.GET.get('org_type', None)
     form = OrganizationForm(cat_name=cat_name)
@@ -28,6 +30,7 @@ def organization_add(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_edit(request, organization_id):
     instance = Organization.objects.get(id=organization_id)
 
@@ -50,6 +53,7 @@ def organization_edit(request, organization_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_carrier_add(request):
     form = OrganizationsCarrierDetailForm()
     if request.POST:
@@ -63,6 +67,7 @@ def organization_carrier_add(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_carrier_edit(request, organization_id):
     instance = OrganizationsCarrierDetail.objects.get(id=organization_id)
 
@@ -79,6 +84,7 @@ def organization_carrier_edit(request, organization_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_client_charge_add(request):
     form = OrganizationsClientChargeCodeForm()
     if request.POST:
@@ -92,6 +98,7 @@ def organization_client_charge_add(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_client_charge_edit(request, organization_id):
     instance = OrganizationsClientChargeCode.objects.get(id=organization_id)
     if request.POST:
@@ -107,6 +114,7 @@ def organization_client_charge_edit(request, organization_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_settings(request):
     organizations = Organization.objects.all().order_by('org_id')
     organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
@@ -121,6 +129,7 @@ def organization_settings(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_client(request):
     organizations = Organization.objects.all().order_by('org_id')
     organizations = perform_search(organizations, request)
@@ -130,6 +139,7 @@ def organization_client(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_client_invoices(request):
     org_id = request.GET.get('org_id', 0) or 0
     organizations_charge = OrganizationsClientChargeCode.objects.all().order_by('-id')
@@ -143,6 +153,7 @@ def organization_client_invoices(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_customer(request):
     organizations = Organization.objects.all().order_by('org_id')
     organizations = perform_search(organizations, request)
@@ -152,6 +163,7 @@ def organization_customer(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_carrier(request):
     organizations = Organization.objects.all().order_by('org_id')
     organizations = perform_search(organizations, request)
@@ -161,6 +173,7 @@ def organization_carrier(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('organization', raise_exception=True)
 def organization_carrier_details(request):
     org_id = request.GET.get('org_id', 0) or 0
     organizations_carrier = OrganizationsCarrierDetail.objects.all().order_by('-id')

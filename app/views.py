@@ -8,6 +8,8 @@ from app.forms import UserSignUpForm, GroupAccessForm, UserEditForm, UserAddForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
+from app.decorators import permission_required_for_item
+
 from app.models import UserGroup, GroupAccess
 from app.utils import add_user_regular_group
 
@@ -27,6 +29,7 @@ def index(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('inventory', raise_exception=True)
 def inventory(request):
     return render(request, 'inventory.html', {'tab': 'inventory'})
 
@@ -37,11 +40,13 @@ def inventory(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('mobile', raise_exception=True)
 def mobile(request):
     return render(request, 'mobile.html', {'tab': 'mobile'})
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('receiving', raise_exception=True)
 def receiving(request):
     return render(request, 'receiving.html', {'tab': 'receiving'})
 
@@ -56,6 +61,7 @@ def remove_user(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('reports', raise_exception=True)
 def reports(request):
     return render(request, 'reports.html', {'tab': 'reports'})
 
@@ -90,11 +96,13 @@ def security_settings(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('settings', raise_exception=True)
 def settings(request):
     return render(request, 'settings.html', {'tab': 'settings'})
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def shipping(request):
     return render(request, 'shipping.html', {'tab': 'shipping'})
 

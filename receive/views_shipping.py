@@ -2,14 +2,15 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from app.decorators import permission_required_for_item
 from app.models import Organization
-from item.forms import ItemForm, ItemUOMForm
-from item.models import Item, ItemUom
-from receive.forms import OrderForm, OrderDetailForm, ShippingOrderForm
+from item.models import ItemUom
+from receive.forms import OrderDetailForm, ShippingOrderForm
 from receive.models import Order, OrderDetail
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def orders(request):
     clients = Organization.objects.filter(category=Organization.CLIENT)
     selected_org = None
@@ -34,6 +35,7 @@ def orders(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def order_add(request):
     org_id = request.GET.get('org_id', -1)
     selected_org = Organization.objects.filter(id=org_id).first()
@@ -50,6 +52,7 @@ def order_add(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def order_edit(request, order_id):
     order = Order.objects.filter(id=order_id).first()
     form = ShippingOrderForm(instance=order, order_id=order.id)
@@ -64,6 +67,7 @@ def order_edit(request, order_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def order_details(request, order_id):
     order = Order.objects.filter(id=order_id).first()
     related_orders = OrderDetail.objects.filter(order_id=order_id)
@@ -74,6 +78,7 @@ def order_details(request, order_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def order_details_add(request):
     order_id = request.GET.get('order_id', -1)
     form = OrderDetailForm(order_id=order_id)
@@ -88,6 +93,7 @@ def order_details_add(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def order_details_edit(request, details_id):
     order_id = request.GET.get('order_id', -1)
     order_detail = OrderDetail.objects.filter(id=details_id).first()
@@ -106,6 +112,7 @@ def order_details_edit(request, details_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def delete_order_detail(request, detail_id):
     order_detail = OrderDetail.objects.filter(id=detail_id)
     if order_detail:
@@ -116,6 +123,7 @@ def delete_order_detail(request, detail_id):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def load_items_uom(request):
     item = request.GET.get('item')
     items = ItemUom.objects.filter(item_id=item)
@@ -123,6 +131,7 @@ def load_items_uom(request):
 
 
 @login_required(login_url='/login/')
+@permission_required_for_item('shipping', raise_exception=True)
 def load_customer_info(request):
     item = request.GET.get('item')
     customer = Organization.objects.filter(id=item).first()

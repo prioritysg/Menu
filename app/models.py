@@ -50,7 +50,7 @@ class GroupAccess(models.Model):
     client = models.CharField(max_length=5, choices=ACCESSES, default=NO_ACCESS)
 
     def __str__(self):
-        return self.user_group.user_type
+        return str(self.id)
 
     class Meta:
         db_table = 'app_user_group_access'
